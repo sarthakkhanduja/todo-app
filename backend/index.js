@@ -12,9 +12,6 @@ app.use(express.json());
 
 // Route to CREATE a new Todo
 app.post("/todo", (req, res) => {
-  // const todoTitle = req.body.title;
-  // const todoDescription = req.body.description;
-  // const todoStatus = req.body.completed;
   const newTodo = todoSchema.safeParse(req.body);
 
   if (newTodo.success) {
