@@ -16,6 +16,8 @@ app.use(cors());
 // Route to CREATE a new Todo
 app.post("/todo", async (req, res) => {
   const newTodo = todoSchema.safeParse(req.body);
+  console.log(req.body);
+  console.log(newTodo);
 
   if (newTodo.success) {
     // put in mongoDB
