@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { todoSchema, todoUpdateSchema } = require("./types");
@@ -8,6 +9,7 @@ const app = express();
 
 // Using Express.json() middleware to parse the Request bodies
 app.use(express.json());
+app.use(cors());
 
 // Defining the routes
 
