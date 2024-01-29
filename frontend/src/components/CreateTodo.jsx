@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import './CreateTodo.css'
+import { RefreshButton } from './RefreshButton';
 
 export function CreateTodo() {
     const [title, setTitle] = useState("");
@@ -6,7 +8,7 @@ export function CreateTodo() {
 
     const addTodo = async () => {
         try {
-            const res = await fetch("http://localhost:3000/todo", {
+            const res = await fetch("http://localhost:3001/todo", {
                 method: "POST",
                 body: JSON.stringify({
                     title: title,
@@ -30,10 +32,10 @@ export function CreateTodo() {
     };
 
     return (
-        <div>
-            <input type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
-            <input type="text" placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
-            <button onClick={addTodo}>Add Todo</button>
+        <div className='parentDiv'>
+            <input className='inputBox' type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
+            <input className='inputBox' type="text" placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
+            <button className='addButton' onClick={addTodo}>Add Todo</button>
         </div>
     );
 }

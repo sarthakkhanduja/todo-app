@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const { todoSchema, todoUpdateSchema } = require("./types");
 const { Todo } = require("./db");
 
-const PORT = 3000;
+const PORT = 3001;
 const app = express();
 
 // Using Express.json() middleware to parse the Request bodies

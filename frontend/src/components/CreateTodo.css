@@ -1,0 +1,24 @@
+.parentDiv {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid black;
+    margin: 10px;
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, rgba(0,211,255,1) 100%);
+}
+
+.inputBox {
+    border-radius: 10px;
+    padding: 15px;
+    margin: 5px;
+}
+
+.addButton {
+    border-radius: 10px;
+    background-color: aquamarine;
+    width: 100px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
