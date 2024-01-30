@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import './Todos.css';
 
-export function Todos({ todos }) {
+export const Todos = memo(({ todos }) => {
   const updateTodos = async (id) => {
     await fetch("http://localhost:3001/completed", {
       method: "PUT",
@@ -29,4 +29,4 @@ export function Todos({ todos }) {
       ))}
     </div>
   );
-}
+});
