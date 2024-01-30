@@ -21,7 +21,7 @@ export const Todos = memo(({ todos }) => {
       {todos.map((element) => (
         <div className='todoDiv' key={element._id}>
           <h1 className='heading'>{element.title}</h1>
-          <p className='description'>{element.description}</p>
+          {/* <p className='description'>{element.description}</p> */}
           <button className='button' onClick={() => updateTodos(element._id)}>
             {element.completed ? "Completed" : "Mark as Complete"}
           </button>
