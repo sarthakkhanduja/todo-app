@@ -2,9 +2,29 @@ import { useState, useEffect } from 'react'
 import { CreateTodo } from './components/CreateTodo'
 import { Todos } from './components/Todos'
 import { RefreshButton } from './components/RefreshButton';
-// import "./App.css";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SignUp from './components/SignUp';
+import { SignIn } from './components/SignIn';
+import { TermsAndConditions } from './components/TermsAndConditions';
 
 function App() {
+  
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/termsandconditions" element={<TermsAndConditions />} />
+        <Route path="/todos" element={<TodosPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
+
+
+function TodosPage() {
   const [todos, setTodos] = useState([]);
   
   const fetchTodos = () => {
@@ -22,8 +42,8 @@ function App() {
   useEffect(() => {
     fetchTodos();
   }, [])
-  
-  return (
+
+  return(
     <div className='flex flex-col'>
       <CreateTodo />
       <div className='todos'>
@@ -34,5 +54,3 @@ function App() {
     </div>
   )
 }
-
-export default App
