@@ -9,9 +9,6 @@ export function SignIn() {
                     <img className="object-cover" src={signInPicture} alt="picture" />
                 </div>
                 <div className="px-9 py-9">
-                    {/* <div className="flex flex-row px-5">
-                        <p className='text-xs pb-5 pt-4 pr-1'>Already have an account? <a className='text-xs underline decoration-{sky-500} text-sky-500 pl-1' href="/signin">Sign in</a></p>
-                    </div> */}
                     <div className="text-4xl font-bold text-gray-900 py-8 px-5">
                         <p>Hello, again! 👋</p>
                     </div>
@@ -46,8 +43,10 @@ function Button(props) {
 function RememberMe() {
     return(
         <div className='py-4 px-5 flex flex-row items-center'>
-            <input className='size-3 rounded-lg' type='checkbox' />
-            <p className='text-xs pl-2'>Remember Me</p>
+            <input id='rememberMeCheckbox' className='size-3 rounded-lg' type='checkbox' />
+            <label htmlFor='rememberMeCheckbox' className='text-xs pl-2 cursor-pointer'>
+                Remember Me
+            </label>
         </div>
     )
 }

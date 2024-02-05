@@ -1,13 +1,24 @@
 import signUpPicture from '../assets/signUpPicture.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate();
+
+    const navigateToSignIn = () => {
+        navigate('/signin');
+    };
+
+    const navigateToTnC = () => {
+        navigate('/termsandconditions');
+    };
+
     return(
         // <div className="min-h-screen w-full bg-gradient-to-bl from-transparent via-blue-marguerite-300 flex justify-center items-center">
         <div className="min-h-screen w-full bg-gradient-to-r from-yellow-100 to-orange-100 flex justify-center items-center">
             <div className="grid grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
                 <div className="px-9 py-9">
                     <div className="flex flex-row px-5">
-                        <p className='text-xs pb-5 pt-4 pr-1'>Already have an account? <a className='text-xs underline decoration-{sky-500} text-sky-500 pl-1' href="/signin">Sign in</a></p>
+                        <p className='text-xs pb-5 pt-4 pr-1'>Already have an account? <a className='text-xs underline decoration-{sky-500} text-sky-500 pl-1 cursor-pointer' onClick={navigateToSignIn}>Sign in</a></p>
                     </div>
                     <div className="text-4xl font-bold text-gray-900 py-8 px-5">
                         <p>Sign Up 📝</p>
@@ -17,7 +28,7 @@ export default function SignUp() {
                         <Field label="Email" givenType="text"/>
                     </div>
                     <Field label="Password" givenType="password"/>
-                    <TnC />
+                    <TnC fn={navigateToTnC} />
                     <Button label="Sign Up" />
                 </div>
                 <div className="flex items-center">
@@ -45,11 +56,13 @@ function Button(props) {
     )
 }
 
-function TnC() {
-    return(
+function TnC(props) {
+    return (
         <div className='py-4 px-5 flex flex-row items-center'>
-            <input className='size-3 rounded-lg' type='checkbox' />
-            <p className='text-xs pl-2'>I've read the <a href='/termsandconditions' className='text-xs underline decoration-{sky-500} text-sky-500 cursor-pointer'>Terms and Conditions</a></p>
+            <input id='tncCheckbox' className='size-3 rounded-lg' type='checkbox' />
+            <label htmlFor='tncCheckbox' className='text-xs pl-2 cursor-pointer'>
+                I've read the <a className='text-xs underline text-sky-500 cursor-pointer' onClick={props.fn}>Terms and Conditions</a>
+            </label>
         </div>
-    )
+    );
 }
