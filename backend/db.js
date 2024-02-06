@@ -17,8 +17,16 @@ const ToDoSchema = new mongoose.Schema({
   },
 });
 
+const UserSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+});
+
 const Todo = mongoose.model("Todos", ToDoSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = {
   Todo,
+  User,
 };

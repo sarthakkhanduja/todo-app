@@ -13,7 +13,14 @@ const todoUpdateSchema = z.object({
   id: z.string(),
 });
 
+const signUpSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
 module.exports = {
   todoSchema: todoSchema,
   todoUpdateSchema: todoUpdateSchema,
+  signUpSchema: signUpSchema,
 };

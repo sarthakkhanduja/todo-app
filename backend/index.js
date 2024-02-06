@@ -1,10 +1,12 @@
 const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { todoSchema, todoUpdateSchema } = require("./types");
-const { Todo } = require("./db");
+const { todoSchema, todoUpdateSchema, signUpSchema } = require("./types");
+const { Todo, User } = require("./db");
+const jwt = require("jsonwebtoken");
 
 const PORT = 3001;
+const JWT_PASSWORD = "JwtPassword";
 const app = express();
 
 // Using Express.json() middleware to parse the Request bodies
@@ -86,6 +88,45 @@ app.put("/completed", async (req, res) => {
   } else {
     res.status(411).json({
       message: "Wrong ID",
+    });
+  }
+});
+
+// Route to Sign Up
+app.post("/signup", async (req, res) => {
+  const body = signUpSchema.safeParse(req.body);
+
+  if (body.success) {
+    // Check if the user already exists
+    const existingUser = await User.findOne({
+      email: body.data.email,
+    });
+
+    if (existingUser) {
+      res.status(420).json({
+        message: "User already exists",
+      });
+      return;
+    }
+
+    try {
+      const newUser = await User.create({
+        name: body.data.name,
+        email: body.data.email,
+        password: body.data.password,
+      });
+      //console.log(`New user created: ${newUser}`);
+      res.status(200).json({
+        message: "User created!",
+      });
+    } catch (e) {
+      res.status(400).json({
+        message: "Problem while creating user in the database",
+      });
+    }
+  } else {
+    res.status(411).json({
+      message: "Inputs are invalid, please check and try again",
     });
   }
 });
