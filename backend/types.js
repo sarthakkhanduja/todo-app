@@ -19,8 +19,17 @@ const signUpSchema = z.object({
   password: z.string().min(8),
 });
 
+// The strict() method ensures that no other field is present in the object apart from the mentioned ones
+const signInSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  })
+  .strict();
+
 module.exports = {
   todoSchema: todoSchema,
   todoUpdateSchema: todoUpdateSchema,
   signUpSchema: signUpSchema,
+  signInSchema: signInSchema,
 };

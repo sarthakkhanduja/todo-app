@@ -1,7 +1,12 @@
 const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { todoSchema, todoUpdateSchema, signUpSchema } = require("./types");
+const {
+  todoSchema,
+  todoUpdateSchema,
+  signUpSchema,
+  signInSchema,
+} = require("./types");
 const { Todo, User } = require("./db");
 const jwt = require("jsonwebtoken");
 
@@ -127,6 +132,46 @@ app.post("/signup", async (req, res) => {
   } else {
     res.status(411).json({
       message: "Inputs are invalid, please check and try again",
+    });
+  }
+});
+
+// Route to sign in, and return a JWT token
+app.post("/signin", async (req, res) => {
+  const body = signInSchema.safeParse(req.body);
+
+  if (body.success) {
+    // Check if the user exists in the database
+    try {
+      const existingUser = await User.findOne({
+        email: body.data.email,
+        password: body.data.password,
+      });
+
+      if (existingUser) {
+        let token = jwt.sign(
+          {
+            email: body.data.email,
+          },
+          JWT_PASSWORD
+        );
+        res.status(200).json({
+          token,
+        });
+        return;
+      } else {
+        res.status(403).json({
+          message: "User not found",
+        });
+      }
+    } catch (e) {
+      res.status(401).json({
+        message: "Something went wrong in the database call",
+      });
+    }
+  } else {
+    res.status(411).json({
+      message: body.error,
     });
   }
 });
