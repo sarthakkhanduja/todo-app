@@ -1,5 +1,4 @@
 import { useState, memo } from 'react';
-// import './Todos.css';
 
 export const Todos = memo(({ todos }) => {
   const updateTodos = async (id) => {

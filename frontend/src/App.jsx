@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react'
-import { CreateTodo } from './components/CreateTodo'
-import { Todos } from './components/Todos'
-import { RefreshButton } from './components/RefreshButton';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { TermsAndConditions } from './components/TermsAndConditions';
+import { TodosPage } from './components/TodosPage';
 
 function App() {
   
@@ -22,35 +19,3 @@ function App() {
 }
 
 export default App
-
-
-function TodosPage() {
-  const [todos, setTodos] = useState([]);
-  
-  const fetchTodos = () => {
-    fetch("http://localhost:3001/todos")
-    .then(async (res) => {
-      const json = await res.json();
-      setTodos(json.allTodos);
-    })
-    .catch((error) => {
-      console.log("Error fetching Todos!!")
-      console.log(error);
-    })
-  }
-
-  useEffect(() => {
-    fetchTodos();
-  }, [])
-
-  return(
-    <div className='flex flex-col'>
-      <CreateTodo />
-      <div className='todos'>
-        <RefreshButton clickHandler={fetchTodos} />
-        <Todos todos={todos}/>
-      </div>
-      
-    </div>
-  )
-}
