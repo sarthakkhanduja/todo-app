@@ -19,7 +19,6 @@ export default function SignUp() {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
     const [label, setLabel] = useState("");
-    const [refresh, setRefresh] = useState(false);
     
     useEffect(() => {
         let timer;
