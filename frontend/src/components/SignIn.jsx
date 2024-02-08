@@ -1,6 +1,9 @@
+import { useState } from "react"
 import signInPicture from "../assets/signin.png"
 
 export function SignIn() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     return(
         // <div className="min-h-screen w-full bg-gradient-to-bl from-transparent via-blue-marguerite-300 flex justify-center items-center">
         <div className="min-h-screen w-full bg-gradient-to-r from-red-100 to-cyan-50 flex justify-center items-center">

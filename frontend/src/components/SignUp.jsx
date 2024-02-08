@@ -19,6 +19,7 @@ export default function SignUp() {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
     const [label, setLabel] = useState("");
+    const [refresh, setRefresh] = useState(false);
     
     useEffect(() => {
         let timer;
@@ -112,8 +113,11 @@ export default function SignUp() {
                 setLabel("Sign Up was successful");
                 setTimeout(() => {
                     navigate("/signin");
-                }, 2000);
-                
+                }, 1000);
+            } else if(response.status === 420) {
+                setShowErrorAlert(true);
+                setLabel("User with a similar email already exists");
+                // Need to re-render the whole component, but not happening for some reason
             }
 
             return(response);
@@ -145,7 +149,7 @@ export default function SignUp() {
     
 
     return(
-        <div className="min-h-screen w-full bg-gradient-to-r from-yellow-100 to-orange-100 flex justify-center items-center">
+        <div className="min-h-screen w-full bg-gradient-to-r from-yellow-100 to-orange-100 flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
             )}
