@@ -6,10 +6,15 @@ const z = require("zod");
 const todoSchema = z.object({
   title: z.string(),
   description: z.string(),
+  projectId: z.string(),
 });
 
 const todoUpdateSchema = z.object({
   id: z.string(),
+  status: z
+    .literal("Yet to Start")
+    .or(z.literal("In Progress"))
+    .or(z.literal("Completed")),
 });
 
 const signUpSchema = z
@@ -28,9 +33,14 @@ const signInSchema = z
   })
   .strict();
 
+const projectSchema = z.object({
+  title: z.string().min(3),
+});
+
 module.exports = {
   todoSchema: todoSchema,
   todoUpdateSchema: todoUpdateSchema,
   signUpSchema: signUpSchema,
   signInSchema: signInSchema,
+  projectSchema: projectSchema,
 };

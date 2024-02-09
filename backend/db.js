@@ -14,17 +14,23 @@ const ProjectSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  todos: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Todos",
-    },
-  ],
+  todos: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Todos",
+      },
+    ],
+    default: [],
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  progress: Number,
+  progress: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const ToDoSchema = new mongoose.Schema({
@@ -53,12 +59,15 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  projects: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
-    },
-  ],
+  projects: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
+    default: [],
+  },
 });
 
 const Todo = mongoose.model("Todo", ToDoSchema);

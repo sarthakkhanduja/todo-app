@@ -6,8 +6,9 @@ const {
   todoUpdateSchema,
   signUpSchema,
   signInSchema,
+  projectSchema,
 } = require("./types");
-const { Todo, User } = require("./db");
+const { Todo, User, Project } = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./middlewares/verifyToken");
 
@@ -21,22 +22,119 @@ app.use(cors());
 // app.use(verifyToken);
 
 // Defining the routes
+// Route to CREATE a new Project
+app.post("/project", verifyToken, async (req, res) => {
+  const newProject = projectSchema.safeParse(req.body);
+  let userId = await User.findOne({ email: req.user.email });
+
+  if (newProject.success) {
+    try {
+      // Check if a project by the same name exists
+      const existingProject = await Project.findOne({
+        title: newProject.data.title,
+      });
+
+      if (
+        existingProject &&
+        existingProject.user.toString() === userId._id.toString()
+      ) {
+        res.status(420).json({
+          message: "Project with a similar title already exists for this user",
+        });
+        return;
+      }
+
+      // Add this project to the Projects Collection in the DB
+      const newProject_DB = await Project.create({
+        title: newProject.data.title,
+        user: userId._id,
+      });
+
+      // console.log(newProject_DB);
+
+      // Add this project within User's
+      const updateUser = await User.updateOne(
+        {
+          email: req.user.email,
+        },
+        {
+          $push: { projects: newProject_DB._id },
+        }
+      );
+
+      res.status(200).json({
+        message: "Project successfully created",
+      });
+    } catch (e) {}
+  } else {
+    res.status(402).json({
+      message: "Project title requires min. 3 characters",
+    });
+  }
+});
+
+// Route to GET all the projects for a specific user
+app.get("/projects", verifyToken, async (req, res) => {
+  try {
+    const currentUser = await User.findOne({
+      email: req.user.email,
+    });
+    const userId = currentUser._id;
+    const allProjects = await Project.find({ user: userId });
+    res.status(200).json({
+      allProjects,
+    });
+  } catch (e) {
+    res.status(400).json({
+      message: "Some error occurred",
+    });
+  }
+});
 
 // Route to CREATE a new Todo
 app.post("/todo", verifyToken, async (req, res) => {
   const newTodo = todoSchema.safeParse(req.body);
-  console.log("Body:" + req.body);
+  // console.log("Body:" + req.body);
   console.log(newTodo);
 
   if (newTodo.success) {
     // put in mongoDB
     try {
+      // Check if the given project Id even exists
       let userId = await User.findOne({ email: req.user.email });
+
+      const project = await Project.findOne({
+        _id: newTodo.data.projectId,
+        user: userId._id,
+      });
+
+      if (!project) {
+        res.status(409).json({
+          message: "Project ID entered is invalid",
+        });
+        return;
+      }
+
+      // Create Todo
       const newTodo_DB = await Todo.create({
         title: newTodo.data.title,
         description: newTodo.data.description,
         user: userId._id,
+        project: newTodo.data.projectId,
       });
+
+      // Update the project's todo array
+      const updateProject = await Project.updateOne(
+        {
+          _id: newTodo.data.projectId,
+          user: userId._id,
+        },
+        {
+          $push: {
+            todos: newTodo_DB._id,
+          },
+        }
+      );
       res.status(200).json({
         message: "New todo has been created",
         value: newTodo_DB,
@@ -49,7 +147,8 @@ app.post("/todo", verifyToken, async (req, res) => {
     }
   } else {
     res.status(411).json({
-      message: "Some wrong type of data has been passed",
+      message:
+        "Some wrong type of data has been passed. Please check your ProjectId",
     });
   }
 });

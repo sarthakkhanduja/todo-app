@@ -15,7 +15,8 @@ const User = mongoose.model("User", {
 async function updateUsers() {
   try {
     await User.updateMany({}, [
-      { $set: { project: [] } }, // Add status with default value and set project to null
+      { $set: { projects: [] } }, // Add status with default value and set project to null
+      { $unset: ["project"] },
     ]);
 
     console.log("Users updated");
