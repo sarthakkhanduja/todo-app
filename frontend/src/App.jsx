@@ -3,12 +3,14 @@ import SignUp from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { TodosPage } from './components/TodosPage';
+import { LandingPage } from './components/LandingPage';
 
 function App() {
   
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />

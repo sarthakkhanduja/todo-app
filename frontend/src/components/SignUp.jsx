@@ -124,6 +124,8 @@ export default function SignUp() {
             } catch(err) {
                 console.log("There was some error in making the backend call to Sign Up");
                 console.log(err);
+                setShowErrorAlert(true);
+                setLabel("Sign up was not successful, please try again after some time");
             }
         } else {
             if(!nameResult.success) {
