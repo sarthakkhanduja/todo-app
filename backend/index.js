@@ -193,12 +193,11 @@ app.put("/completed", verifyToken, async (req, res) => {
             _id: id.data.id,
           },
           {
-            completed: true,
-            completedAt: Date.now(),
+            status: id.data.status,
           }
         );
         res.status(200).json({
-          message: "Marked as completed",
+          message: "Updated the status",
         });
       } catch (e) {
         console.log(e);
@@ -213,7 +212,7 @@ app.put("/completed", verifyToken, async (req, res) => {
     }
   } else {
     res.status(411).json({
-      message: "Wrong ID",
+      message: "Wrong Input, either the ID or the status",
     });
   }
 });
