@@ -131,7 +131,7 @@ app.post("/signup", async (req, res) => {
 
     if (existingUser) {
       res.status(420).json({
-        message: "User already exists",
+        message: "User with a similar email already exists",
       });
       return;
     }
@@ -154,6 +154,7 @@ app.post("/signup", async (req, res) => {
   } else {
     res.status(411).json({
       message: "Inputs are invalid, please check and try again",
+      error: body.error,
     });
   }
 });
