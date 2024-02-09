@@ -173,7 +173,7 @@ app.get("/todos", verifyToken, async (req, res) => {
 });
 
 // Route to UPDATE the completion of todo's
-app.put("/completed", verifyToken, async (req, res) => {
+app.put("/updateStatus", verifyToken, async (req, res) => {
   const id = todoUpdateSchema.safeParse(req.body);
 
   if (id.success) {
@@ -196,6 +196,38 @@ app.put("/completed", verifyToken, async (req, res) => {
             status: id.data.status,
           }
         );
+
+        // Finding the associated project with the given ToDo
+        const associatedProject = await Project.findOne({
+          _id: findTodo.project,
+        });
+
+        // Updating the progress of the project
+        let totalTodos = associatedProject.todos.length;
+        let completedTodos = 0;
+
+        for (let i = 0; i < totalTodos; i++) {
+          const currentTodoId = associatedProject.todos[i];
+          const currentTodo = await Todo.findOne({
+            _id: currentTodoId,
+          });
+
+          if (currentTodo.status == "Completed") {
+            completedTodos += 1;
+          }
+        }
+
+        let updatedProgress = (completedTodos / totalTodos) * 100;
+
+        const updateProject = await Project.updateOne(
+          {
+            _id: findTodo.project,
+          },
+          {
+            progress: updatedProgress,
+          }
+        );
+
         res.status(200).json({
           message: "Updated the status",
         });
