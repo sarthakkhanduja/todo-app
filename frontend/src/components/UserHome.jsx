@@ -2,6 +2,7 @@ import logo from "../assets/getToWork.png";
 import React, { useState } from "react";
 import Wave from 'react-wavify';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 
 export function UserHome() {
@@ -43,6 +44,51 @@ function Sidebar() {
         setShowDropdown(!showDropdown);
     };
 
+    const fetchProjectNum = async () => {
+        axios
+    }
+    const projects = [{
+        name: "Cohort"
+    }, {
+        name: "DSA"
+    }, {
+        name: "Football"
+    }, {
+        name: "Job Application"
+    }, {
+        name: "Cohort"
+    }, {
+        name: "DSA"
+    }, {
+        name: "Football"
+    }, {
+        name: "Job Application"
+    }, {
+        name: "Cohort"
+    }, {
+        name: "DSA"
+    }, {
+        name: "Football"
+    }, {
+        name: "Job Application"
+    }, {
+        name: "Cohort"
+    }, {
+        name: "DSA"
+    }, {
+        name: "Football"
+    }, {
+        name: "Job Application"
+    }, {
+        name: "Cohort"
+    }, {
+        name: "DSA"
+    }, {
+        name: "Football"
+    }, {
+        name: "Job Application"
+    }]
+
     return (
         <aside
             id="sidebar-multi-level-sidebar"
@@ -79,27 +125,17 @@ function Sidebar() {
                         <ul
                             id="dropdown-example"
                             className={`py-2 space-y-2 ${showDropdown ? "" : "hidden"}`}>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                    Products
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                    Billing
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                    Invoice
-                                </a>
-                            </li>
+                            {projects.map((element) => {
+                                return(
+                                    <li>
+                                        <a
+                                            href="#"
+                                            className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                            {element.name}
+                                        </a>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </li>
                 </ul>
