@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Wave from 'react-wavify';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { ProjectHome } from "./ProjectHome";
 
 
 export function UserHome() {
@@ -13,14 +14,20 @@ export function UserHome() {
                     <Sidebar />
                 </div>
                 <div className="col-span-5 relative z-10">
-                    <Waves />
-                    <div className="w-full px-16 py-8 text-6xl font-bold mb-8">
-                        Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                    {/* <div>
+                        <Waves />
+                        <div className="w-full px-16 py-8 text-6xl font-bold mb-8">
+                            Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                        </div>
+                        <div className="w-full flex flex-col items-center justify-center px-16 py-32">
+                            <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
+                            <Button />
+                        </div>
+                    </div> */}
+                    <div>
+                        <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
                     </div>
-                    <div className="w-full flex flex-col items-center justify-center px-16 py-32">
-                        <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
-                        <Button />
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -45,7 +52,9 @@ function Sidebar() {
     };
 
     const fetchProjectNum = async () => {
-        axios
+        axios.get('http://localhost:3001/projects', {
+
+        })
     }
     const projects = [{
         name: "Cohort"
