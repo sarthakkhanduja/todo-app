@@ -1,12 +1,36 @@
-import logo from "../assets/getToWork.png";
-import React, { useState } from "react";
-import Wave from 'react-wavify';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ProjectHome } from "./ProjectHome";
 
 
 export function UserHome() {
+    const [loading, setLoading] = useState(true);
+    const [numberOfProjects, setNumberOfProjects] = useState(0);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const safeToken = localStorage.getItem('token');
+                const response = await axios.get('http://localhost:3001/projects', {
+                    headers: {
+                        "Authorization": `${safeToken}`,
+                    }
+                });
+                // Handle response data
+                console.log(response.data);
+                console.log(response.data["allProjects"])
+                setNumberOfProjects(response.data.allProjects.length);
+                setLoading(false);
+            } catch (error) {
+                // Handle error
+                console.error("Error fetching projects:", error);
+            }
+        };
+
+        fetchProjects();
+    }, []);
+    console.log(numberOfProjects);
+    
     return(
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
@@ -14,20 +38,24 @@ export function UserHome() {
                     <Sidebar />
                 </div>
                 <div className="col-span-5 relative z-10">
-                    {/* <div>
-                        <Waves />
-                        <div className="w-full px-16 py-8 text-6xl font-bold mb-8">
-                            Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                {loading ? (
+                        <div>Loading...</div>
+                    ) : numberOfProjects === 0 ? (
+                        <div>
+                            <Waves />
+                            <div className="w-full px-16 py-8 text-6xl font-bold mb-8">
+                                Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                            </div>
+                            <div className="w-full flex flex-col items-center justify-center px-16 py-32">
+                                <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
+                                <Button />
+                            </div>
                         </div>
-                        <div className="w-full flex flex-col items-center justify-center px-16 py-32">
-                            <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
-                            <Button />
+                    ) : (
+                        <div>
+                            <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
                         </div>
-                    </div> */}
-                    <div>
-                        <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
-                    </div>
-                    
+                    )}
                 </div>
             </div>
         </div>
