@@ -65,7 +65,7 @@ export function ProjectHome(props) {
     
 
     return (
-        <div className="h-screen">
+        <div className="h-screen opacity-90">
             <div className="w-full px-16 py-8 flex justify-between items-center">
                 <p className="text-6xl font-bold">{props.projectName}</p>
                 <Button label="Add To-do" />
@@ -77,7 +77,7 @@ export function ProjectHome(props) {
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="px-16 mt-2 grid grid-cols-3 py-3 gap-4 h-5/6">
-                    <div className="col-span-1 bg-red-100 rounded-xl">
+                    <div className="col-span-1 bg-red-200 rounded-xl">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Yet to Start
                         </div>
@@ -92,7 +92,7 @@ export function ProjectHome(props) {
                             )}
                         </Droppable>
                     </div>
-                    <div className="col-span-1 bg-yellow-100 rounded-xl">
+                    <div className="col-span-1 bg-yellow-200 rounded-xl">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             In Progress
                         </div>
@@ -107,7 +107,7 @@ export function ProjectHome(props) {
                             )}
                         </Droppable>
                     </div>
-                    <div className="col-span-1 bg-green-100 rounded-xl">
+                    <div className="col-span-1 bg-green-200 rounded-xl">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Completed
                         </div>
