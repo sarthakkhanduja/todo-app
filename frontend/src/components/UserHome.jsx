@@ -6,6 +6,7 @@ import { ProjectHome } from "./ProjectHome";
 export function UserHome() {
     const [loading, setLoading] = useState(true);
     const [numberOfProjects, setNumberOfProjects] = useState(0);
+    const [projectArray, setProjectArray] = useState([]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -18,7 +19,8 @@ export function UserHome() {
                 });
                 // Handle response data
                 console.log(response.data);
-                console.log(response.data["allProjects"])
+                console.log(response.data["allProjects"]);
+                setProjectArray(response.data["allProjects"]);
                 setNumberOfProjects(response.data.allProjects.length);
                 setLoading(false);
             } catch (error) {
@@ -29,13 +31,13 @@ export function UserHome() {
 
         fetchProjects();
     }, []);
-    console.log(numberOfProjects);
+    
     
     return(
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
-                    <Sidebar />
+                    <Sidebar projectArray={projectArray} />
                 </div>
                 <div className="col-span-5 relative z-10">
                 {loading ? (
@@ -48,7 +50,7 @@ export function UserHome() {
                             </div>
                             <div className="w-full flex flex-col items-center justify-center px-16 py-32">
                                 <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
-                                <Button />
+                                <Button label="Create Project"/>
                             </div>
                         </div>
                     ) : (
@@ -72,59 +74,12 @@ function Waves() {
     )
 }
 
-function Sidebar() {
+function Sidebar(props) {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
-
-    const fetchProjectNum = async () => {
-        axios.get('http://localhost:3001/projects', {
-
-        })
-    }
-    const projects = [{
-        name: "Cohort"
-    }, {
-        name: "DSA"
-    }, {
-        name: "Football"
-    }, {
-        name: "Job Application"
-    }, {
-        name: "Cohort"
-    }, {
-        name: "DSA"
-    }, {
-        name: "Football"
-    }, {
-        name: "Job Application"
-    }, {
-        name: "Cohort"
-    }, {
-        name: "DSA"
-    }, {
-        name: "Football"
-    }, {
-        name: "Job Application"
-    }, {
-        name: "Cohort"
-    }, {
-        name: "DSA"
-    }, {
-        name: "Football"
-    }, {
-        name: "Job Application"
-    }, {
-        name: "Cohort"
-    }, {
-        name: "DSA"
-    }, {
-        name: "Football"
-    }, {
-        name: "Job Application"
-    }]
 
     return (
         <aside
@@ -162,14 +117,13 @@ function Sidebar() {
                         <ul
                             id="dropdown-example"
                             className={`py-2 space-y-2 ${showDropdown ? "" : "hidden"}`}>
-                            {projects.map((element, index) => {
+                            {props.projectArray.map((element, index) => {
                                 return(
-                                    <li>
+                                    <li key={index}>
                                         <a
                                             href="#"
-                                            key={index}
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-marguerite-100">
-                                            {element.name}
+                                            {element.title}
                                         </a>
                                     </li>
                                 )
@@ -199,7 +153,7 @@ function Sidebar() {
     );
 }
 
-function Button() {
+function Button(props) {
     return (
         <button className="cursor-pointer relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50" 
         >
@@ -207,7 +161,7 @@ function Button() {
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
                 <svg className="w-5 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </span>
-            <span className="relative">Create Project</span>
+            <span className="relative">{props.label}</span>
         </button>
     );
 }
