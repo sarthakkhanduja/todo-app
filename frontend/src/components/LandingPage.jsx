@@ -1,13 +1,15 @@
 import logo from "../assets/getToWork.png";
-import heroImg from "../assets/taskList.png"
-import { useNavigate, Link } from 'react-router-dom';
+import heroImg from "../assets/heroImg.svg"
+import { Link } from 'react-router-dom';
+import bgImg from "../assets/ooorganize.svg";
 
 export function LandingPage() {
     return (
-        <div className="w-full min-h-screen flex flex-col relative">
+        <div className="relative w-full min-h-screen">
             <Navbar />
-            <div className="w-full flex flex-col">
-                <div className="flex flex-row relative">
+            <BgImage />
+            <div className="z-10 flex flex-col">
+                <div className="flex flex-row">
                     <HeroImage />
                     <Hero />
                 </div>
@@ -17,6 +19,15 @@ export function LandingPage() {
         </div>
     )
 }
+
+function BgImage() {
+    return (
+        <div className="absolute inset-0 -z-10 opacity-10">
+            <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
+        </div>
+    )
+}
+
 
 function Navbar() {
     return(
@@ -58,8 +69,8 @@ function Footer() {
 
 function HeroImage() {
     return(
-        <div className="w-full px-36 pt-32">
-            <img className="object-cover" src={heroImg} alt="heroImage" />
+        <div className="w-full px-48 pt-32">
+            <img className="" src={heroImg} alt="heroImage" />
         </div>
     )
 }
