@@ -103,16 +103,16 @@ function Sidebar() {
             id="sidebar-multi-level-sidebar"
             className="top-0 left-0 z-40 w-full h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar">
-            <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
+            <div className="h-full px-3 py-4 overflow-y-auto bg-gray-200 flex flex-col justify-between">
                 <ul className="space-y-2 font-medium">
                     <li>
                         <button
                             type="button"
-                            className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-blue-marguerite-100"
                             aria-controls="dropdown-example"
                             onClick={toggleDropdown}>
                             <svg
-                                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"
@@ -134,12 +134,13 @@ function Sidebar() {
                         <ul
                             id="dropdown-example"
                             className={`py-2 space-y-2 ${showDropdown ? "" : "hidden"}`}>
-                            {projects.map((element) => {
+                            {projects.map((element, index) => {
                                 return(
                                     <li>
                                         <a
                                             href="#"
-                                            className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                            key={index}
+                                            className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-marguerite-100">
                                             {element.name}
                                         </a>
                                     </li>
@@ -150,11 +151,12 @@ function Sidebar() {
                 </ul>
                 <div className="Signout">
                     <button
+                        key={"signOut"}
                         type="button"
-                        className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-bluw-marguerite-100"
                         aria-controls="dropdown-example">
                         <svg
-                            className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                            className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
