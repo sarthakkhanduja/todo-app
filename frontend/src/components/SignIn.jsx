@@ -6,6 +6,7 @@ import axios from "axios";
 import { InfoAlert } from './alerts/InfoAlert';
 import { SuccessAlert } from './alerts/SuccessAlert';
 import { ErrorAlert } from './alerts/ErrorAlert';
+import bgImg from "../assets/checkered.svg";
 
 export function SignIn() {
     const [email, setEmail] = useState("");
@@ -106,7 +107,7 @@ export function SignIn() {
 
     return(
         // <div className="min-h-screen w-full bg-gradient-to-bl from-transparent via-blue-marguerite-300 flex justify-center items-center">
-        <div className="min-h-screen w-full bg-gradient-to-r from-red-100 to-cyan-50 flex flex-col justify-center items-center">
+        <div className="min-h-screen w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
             )}
@@ -116,7 +117,8 @@ export function SignIn() {
             {showErrorAlert && (
                 <ErrorAlert label={label} />
             )}
-            <div className="grid grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+            <BgImage />
+            <div className="grid z-10 grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
                 <div className="flex items-center">
                     <img className="object-cover" src={signInPicture} alt="picture" />
                 </div>
@@ -169,6 +171,14 @@ function RememberMe() {
             <label htmlFor='rememberMeCheckbox' className='text-xs pl-2 cursor-pointer'>
                 Remember Me
             </label>
+        </div>
+    )
+}
+
+function BgImage() {
+    return (
+        <div className="absolute inset-0 -z-10 opacity-10">
+            <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
         </div>
     )
 }

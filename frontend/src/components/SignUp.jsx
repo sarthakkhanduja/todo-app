@@ -6,6 +6,7 @@ import { nameSchema, emailSchema, passwordSchema } from '../validations/signUpVa
 import { InfoAlert } from './alerts/InfoAlert';
 import { SuccessAlert } from './alerts/SuccessAlert';
 import { ErrorAlert } from './alerts/ErrorAlert';
+import bgImg from "../assets/checkered.svg";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -150,7 +151,7 @@ export default function SignUp() {
     
 
     return(
-        <div className="min-h-screen w-full bg-gradient-to-r from-yellow-100 to-orange-100 flex flex-col justify-center items-center">
+        <div className="min-h-screen w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
             )}
@@ -160,7 +161,8 @@ export default function SignUp() {
             {showErrorAlert && (
                 <ErrorAlert label={label} />
             )}
-            <div className="grid grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+            <BgImage />
+            <div className="grid grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] z-10">
                 <div className="px-9 py-9">
                     <div className="flex flex-row px-5">
                         <p className='text-xs pb-5 pt-4 pr-1'>Already have an account? <a className='text-xs underline decoration-{sky-500} text-sky-500 pl-1 cursor-pointer' onClick={navigateToSignIn}>Sign in</a></p>
@@ -227,4 +229,12 @@ function TnC(props) {
             </label>
         </div>
     );
+}
+
+function BgImage() {
+    return (
+        <div className="absolute inset-0 -z-10 opacity-10">
+            <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
+        </div>
+    )
 }

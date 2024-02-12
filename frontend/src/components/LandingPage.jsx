@@ -59,7 +59,7 @@ function Footer() {
     return (
         <div className="w-full flex justify-center items-center">
             Made by{' '}
-            <a className="text-blue-marguerite-400 pl-1" href="https://linkedin.com/in/sarthakkhanduja" target="_blank" rel="noopener noreferrer">
+            <a className="text-blue-marguerite-400 pl-1 font-semibold" href="https://linkedin.com/in/sarthakkhanduja" target="_blank" rel="noopener noreferrer">
                 Sarthak Khanduja
             </a>
         </div>
