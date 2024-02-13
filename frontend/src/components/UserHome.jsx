@@ -4,47 +4,57 @@ import { ProjectHome } from "./ProjectHome";
 import { Sidebar } from "./Sidebar";
 import bgImg from "../assets/ooorganize.svg";
 import ProjectModal from "./ProjectModal";
+import { useNavigate } from 'react-router-dom';
+import { useCallback } from "react";
+
 
 export function UserHome() {
     const [loading, setLoading] = useState(true);
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
-    const [modal, setModal] = useState(false);
-    const [projectTitle, setProjectTitle] = useState("");
-    
+    const [modal, setModal] = useState(false); // Project Modal
+    const [projectTitle, setProjectTitle] = useState(""); // This is for the Modal, NOT for the title at the top
+    const [currentProject, setCurrentProject] = useState(null);
+
+    // console.log("On mounting the component, value of projectTitle: " + projectTitle);
+
+    const navigate = useNavigate();
 
     const toggleModal = () => {
         setModal(!modal);
     }
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const safeToken = localStorage.getItem('token');
+    const fetchProjects = useCallback(async () => {
+        // console.log("On fetching projects, value of projectTitle: " + projectTitle);
+        try {
+            const safeToken = localStorage.getItem('token');
+            if(safeToken) {
                 const response = await axios.get('http://localhost:3001/projects', {
                     headers: {
                         "Authorization": `${safeToken}`,
                     }
                 });
-                // Handle response data
-                // console.log(response.data);
-                // console.log(response.data["allProjects"]);
+                console.log(response.data);
                 setProjectArray(response.data["allProjects"]);
                 setNumberOfProjects(response.data.allProjects.length);
                 setLoading(false);
-            } catch (error) {
-                // Handle error
-                console.error("Error fetching projects:", error);
+            } else {
+                navigate("/signin");
             }
-        };
+            
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    }, [navigate]);
 
+    useEffect(() => {
         fetchProjects();
-    }, [projectArray]);
+    }, []);
 
-    const addProject = async () => {
+    const addProject = useCallback(async () => {
         console.log("Backend call for adding project...");
-        console.log("Project Title: ", projectTitle);
-        try{
+        console.log("Project Title: " + projectTitle);
+        try {
             let safeToken = localStorage.getItem('token');
             const response = await axios.post("http://localhost:3001/project", {
                 title: projectTitle,
@@ -53,17 +63,20 @@ export function UserHome() {
                 headers: {
                     "Authorization": `${safeToken}`
                 }
-            })
-
+            });
+    
             console.log(response);
             alert("Project Created");
             setProjectTitle("");
             setModal(false);
+    
+            // Call fetchProjects to update the project list after adding a new project
+            fetchProjects();
         } catch(e) {
-            // Handle error
             console.error("Error adding project:", e);
         }
-    }
+    }, [projectTitle, fetchProjects, setProjectTitle, setModal]);
+    
     
     
     return(
@@ -77,7 +90,7 @@ export function UserHome() {
                         <div>Loading...</div>
                     ) : numberOfProjects === 0 ? (
                         <div>
-                            <BgImage />
+                            <BgImage opacity="0.05" />
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
                             <div className="z-10">
                                 <Waves />
@@ -93,7 +106,7 @@ export function UserHome() {
                         
                     ) : (
                         <div>
-                            <BgImage />
+                            <BgImage opacity="0.1" />
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
                             <div className="z-10">
                                 <Waves />
@@ -132,9 +145,9 @@ function Button(props) {
 }
 
 
-function BgImage() {
+function BgImage(props) {
     return (
-        <div className="absolute inset-0 -z-10 opacity-5">
+        <div className="absolute inset-0 -z-10" style={{opacity: props.opacity}}>
             <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
         </div>
     )

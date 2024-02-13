@@ -55,13 +55,13 @@ export function SignIn() {
 
     const validateEmail = (value) => {
         const result = emailSchema.safeParse(value);
-        console.log(result);
+        // console.log(result);
         setEmailError((result.error && value.length !=0 ) ? "Invalid e-mail format" : null);
     };
 
     const validatePassword = (value) => {
         const result = passwordSchema.safeParse(value);
-        console.log(result);
+        // console.log(result);
         setPwdError((result.error && value.length !=0 ) ? "Your password needs to be minimum 8 characters" : null);
     };
 
@@ -96,7 +96,7 @@ export function SignIn() {
 
                     // navigate to another page
                     setTimeout(() => {
-                        navigate("/todos");
+                        navigate("/userhome");
                     }, 1000);
                 }
             } catch(e) {
