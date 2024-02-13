@@ -10,6 +10,8 @@ export function UserHome() {
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
     const [modal, setModal] = useState(false);
+    const [projectTitle, setProjectTitle] = useState("");
+    
 
     const toggleModal = () => {
         setModal(!modal);
@@ -25,8 +27,8 @@ export function UserHome() {
                     }
                 });
                 // Handle response data
-                console.log(response.data);
-                console.log(response.data["allProjects"]);
+                // console.log(response.data);
+                // console.log(response.data["allProjects"]);
                 setProjectArray(response.data["allProjects"]);
                 setNumberOfProjects(response.data.allProjects.length);
                 setLoading(false);
@@ -38,6 +40,30 @@ export function UserHome() {
 
         fetchProjects();
     }, []);
+
+    const addProject = async () => {
+        console.log("Backend call for adding project...");
+        console.log("Project Title: ", projectTitle);
+        try{
+            let safeToken = localStorage.getItem('token');
+            const response = await axios.post("http://localhost:3001/project", {
+                title: projectTitle,
+            }, 
+            {
+                headers: {
+                    "Authorization": `${safeToken}`
+                }
+            })
+
+            console.log(response);
+            alert("Project Created");
+            setProjectTitle("");
+            setModal(false);
+        } catch(e) {
+            // Handle error
+            console.error("Error adding project:", e);
+        }
+    }
     
     
     return(
@@ -52,7 +78,7 @@ export function UserHome() {
                     ) : numberOfProjects === 0 ? (
                         <div>
                             <BgImage />
-                            <ProjectModal toggle={toggleModal} modal={modal} />
+                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
                             <div className="z-10">
                                 <Waves />
                                 <div className="w-full px-16 py-8 text-6xl font-bold mb-16">

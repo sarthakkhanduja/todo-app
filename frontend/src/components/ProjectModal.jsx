@@ -1,6 +1,17 @@
 import React from 'react'
+import { projectTitleSchema } from '../validations/projectTitleValidation';
+import { useState } from 'react';
+import { useCallback } from 'react';
 
 function ProjectModal(props) {
+    const [error, setError] = useState(null);
+
+    const validateTitle = useCallback((value) => {
+        const result = projectTitleSchema.safeParse(value);
+        // console.log("Validating Title: " + JSON.stringify(result));
+        setError(result.error && value.length !== 0 ? "Project Title should be of at least 3 characters" : null);
+    }, []);
+    
     return (
       props.modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -33,29 +44,36 @@ function ProjectModal(props) {
                 </button>
               </div>
               <div className="p-4">
-                <form className="space-y-4" action="#">
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900"
-                    >
-                      Title
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-blue-marguerite-500 hover:bg-blue-marguerite-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
-                    Confirm
-                  </button>
-                </form>
+                <div className="">
+                <label
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                    Title
+                </label>
+                <input
+                    type="text"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    onChange={(e) => {
+                        // console.log(e.target.value);
+                        props.setProjectTitle(e.target.value)
+                    }}
+                    onBlur={() => {
+                        validateTitle(props.projectTitle)
+                    }}
+                    onFocus={() => {
+                        setError(null);
+                    }}
+                    
+                />
+                {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+                </div>
+                <button
+                type="submit"
+                className="w-full mt-4 text-white bg-blue-marguerite-500 hover:bg-blue-marguerite-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                onClick={props.addProject}
+                >
+                Confirm
+                </button>
               </div>
             </div>
           </div>
