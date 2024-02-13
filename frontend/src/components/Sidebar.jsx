@@ -15,7 +15,7 @@ export function Sidebar(props) {
             aria-label="Sidebar">
             <div className="h-full px-3 py-4 overflow-y-auto bg-gray-200 flex flex-col justify-between">
                 <div>
-                <div className="h-36 rounded-xl bg-gray-300 hover:bg-blue-marguerite-200 flex flex-col cursor-pointer justify-center items-center">
+                <div className="h-36 rounded-xl bg-gray-300 hover:bg-blue-marguerite-200 flex flex-col cursor-pointer justify-center items-center" onClick={props.toggle}>
                     <img className="size-20" src={plus} alt="Add Project" />
                     <p className="text-sm text-gray-600">Add a project</p>
                 </div>

@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ProjectHome } from "./ProjectHome";
 import { Sidebar } from "./Sidebar";
+import bgImg from "../assets/ooorganize.svg";
+import ProjectModal from "./ProjectModal";
 
 export function UserHome() {
     const [loading, setLoading] = useState(true);
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
+    const [modal, setModal] = useState(false);
+
+    const toggleModal = () => {
+        setModal(!modal);
+    }
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -37,22 +44,27 @@ export function UserHome() {
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
-                    <Sidebar projectArray={projectArray} />
+                    <Sidebar projectArray={projectArray} toggle={toggleModal} />
                 </div>
                 <div className="col-span-5 relative z-10">
                 {loading ? (
                         <div>Loading...</div>
                     ) : numberOfProjects === 0 ? (
                         <div>
-                            <Waves />
-                            <div className="w-full px-16 py-8 text-6xl font-bold mb-8">
-                                Hi<span className="text-blue-marguerite-400">, </span> Sarthak
-                            </div>
-                            <div className="w-full flex flex-col items-center justify-center px-16 py-32">
-                                <p className="text-gray-500 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
-                                <Button label="Create Project"/>
+                            <BgImage />
+                            <ProjectModal toggle={toggleModal} modal={modal} />
+                            <div className="z-10">
+                                <Waves />
+                                <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
+                                    Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                                </div>
+                                <div className="w-full flex flex-col items-center justify-center px-16 py-32">
+                                    <p className="text-gray-700 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
+                                    <Button label="Create Project" toggle={toggleModal}/>
+                                </div>
                             </div>
                         </div>
+                        
                     ) : (
                         <div>
                             <Waves />
@@ -78,6 +90,7 @@ function Waves() {
 function Button(props) {
     return (
         <button className="cursor-pointer relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50" 
+        onClick={props.toggle}
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
@@ -86,4 +99,13 @@ function Button(props) {
             <span className="relative">{props.label}</span>
         </button>
     );
+}
+
+
+function BgImage() {
+    return (
+        <div className="absolute inset-0 -z-10 opacity-5">
+            <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
+        </div>
+    )
 }
