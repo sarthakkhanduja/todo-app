@@ -103,7 +103,7 @@ export function UserHome() {
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
-                    <Sidebar projectArray={projectArray} toggle={toggleModal} />
+                    <Sidebar projectArray={projectArray} toggle={toggleModal} currentProject={currentProject} setCurrentProject={setCurrentProject} />
                 </div>
                 <div className="col-span-5 relative z-10">
                 {loading ? (
@@ -130,13 +130,16 @@ export function UserHome() {
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
                             <div className="z-10">
                                 <Waves />
-                                <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
-                                    Hi<span className="text-blue-marguerite-400">, </span> {name}
-                                </div>
-                                <div className="w-full flex flex-col items-center justify-center px-16 py-32">
-                                    <p className="text-gray-700 my-8 font-semibold text-xl">To get started, choose a project from the sidebar!</p>
-                                </div>
-                                {currentProject && <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />}
+                                {currentProject ? <ProjectHome projectName={currentProject.title} projectProgress={`${currentProject.progress}%`} /> : (
+                                    <div>
+                                        <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
+                                            Hi<span className="text-blue-marguerite-400">, </span> {name}
+                                        </div>
+                                        <div className="w-full flex flex-col items-center justify-center px-16 py-32">
+                                            <p className="text-gray-700 my-8 font-semibold text-xl">To get started, choose a project from the sidebar!</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

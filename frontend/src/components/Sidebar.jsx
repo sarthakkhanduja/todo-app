@@ -48,13 +48,17 @@ export function Sidebar(props) {
                             </svg>
                         </button>
                         <ul
-                            id="dropdown-example"
+                            id="dropdown"
                             className={`py-2 space-y-2 ${showDropdown ? "" : "hidden"}`}>
                             {props.projectArray.map((element, index) => {
                                 return(
                                     <li key={index}>
                                         <div
-                                            className="flex items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-blue-marguerite-100">
+                                            className={`flex items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${props.currentProject == element ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
+                                            onClick={() => {
+                                                props.setCurrentProject(element);
+                                            }}
+                                            >
                                             {element.title}
                                         </div>
                                     </li>
@@ -69,7 +73,10 @@ export function Sidebar(props) {
                         key={"signOut"}
                         type="button"
                         className="flex items-center w-full p-2 text-base text-white bg-gray-700 transition duration-75 rounded-lg group hover:bg-blue-marguerite-400"
-                        aria-controls="dropdown-example">
+                        onClick={() => {
+                            props.setCurrentProject(null);
+                        }}
+                        aria-controls="dropdown">
                         <svg
                             className="flex-shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-gray-900"
                             aria-hidden="true"
