@@ -9,6 +9,7 @@ import { useCallback } from "react";
 
 
 export function UserHome() {
+    const [name, setName] = useState("User");
     const [loading, setLoading] = useState(true);
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
@@ -23,6 +24,24 @@ export function UserHome() {
     const toggleModal = () => {
         setModal(!modal);
     }
+
+    const fetchName = useCallback(async () => {
+        const safeToken = localStorage.getItem('token');
+        if(safeToken) {
+            const response = await axios.get('http://localhost:3001/name', {
+                headers: {
+                    "Authorization": `${safeToken}`,
+                }
+            });
+            // console.log(response.data.name);
+            let name = response.data.name.toString();
+            let firstName = name.split(" ")[0];
+            // console.log(firstName);
+            setName(firstName);
+        } else {
+            navigate("/signin");
+        }
+    });
 
     const fetchProjects = useCallback(async () => {
         // console.log("On fetching projects, value of projectTitle: " + projectTitle);
@@ -49,6 +68,7 @@ export function UserHome() {
 
     useEffect(() => {
         fetchProjects();
+        fetchName();
     }, []);
 
     const addProject = useCallback(async () => {
@@ -95,7 +115,7 @@ export function UserHome() {
                             <div className="z-10">
                                 <Waves />
                                 <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
-                                    Hi<span className="text-blue-marguerite-400">, </span> Sarthak
+                                    Hi<span className="text-blue-marguerite-400">, </span> {name}
                                 </div>
                                 <div className="w-full flex flex-col items-center justify-center px-16 py-32">
                                     <p className="text-gray-700 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
@@ -110,7 +130,13 @@ export function UserHome() {
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
                             <div className="z-10">
                                 <Waves />
-                                <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
+                                <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
+                                    Hi<span className="text-blue-marguerite-400">, </span> {name}
+                                </div>
+                                <div className="w-full flex flex-col items-center justify-center px-16 py-32">
+                                    <p className="text-gray-700 my-8 font-semibold text-xl">To get started, choose a project from the sidebar!</p>
+                                </div>
+                                {currentProject && <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />}
                             </div>
                         </div>
                     )}
