@@ -67,10 +67,16 @@ app.post("/project", verifyToken, async (req, res) => {
       });
     } catch (e) {}
   } else {
-    res.status(402).json({
+    res.status(432).json({
       message: "Project title requires min. 3 characters",
     });
   }
+});
+
+app.get("/name", verifyToken, async (req, res) => {
+  res.status(200).json({
+    name: req.user.name,
+  });
 });
 
 // Route to GET all the projects for a specific user
@@ -301,10 +307,13 @@ app.post("/signin", async (req, res) => {
         password: body.data.password,
       });
 
+      // console.log(existingUser);
+
       if (existingUser) {
         let token = jwt.sign(
           {
             email: body.data.email,
+            name: existingUser.name,
           },
           JWT_PASSWORD
         );
