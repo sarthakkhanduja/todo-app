@@ -39,7 +39,7 @@ export function UserHome() {
         };
 
         fetchProjects();
-    }, []);
+    }, [projectArray]);
 
     const addProject = async () => {
         console.log("Backend call for adding project...");
@@ -93,8 +93,12 @@ export function UserHome() {
                         
                     ) : (
                         <div>
-                            <Waves />
-                            <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
+                            <BgImage />
+                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
+                            <div className="z-10">
+                                <Waves />
+                                <ProjectHome projectName="Cohort 2.0" projectProgress="65%" />
+                            </div>
                         </div>
                     )}
                 </div>
