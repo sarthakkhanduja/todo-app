@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from 'axios';
 import { ProjectHome } from "./ProjectHome";
 import { Sidebar } from "./Sidebar";
 import bgImg from "../assets/ooorganize.svg";
 import ProjectModal from "./ProjectModal";
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from "react";
 
 
 export function UserHome() {
@@ -14,16 +13,23 @@ export function UserHome() {
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
     const [modal, setModal] = useState(false); // Project Modal
+    const [toDoModal, setToDoModal] = useState(false); // To-do Modal
     const [projectTitle, setProjectTitle] = useState(""); // This is for the Modal, NOT for the title at the top
-    const [currentProject, setCurrentProject] = useState(null);
+    const [currentProject, setCurrentProject] = useState(null); // This is for the "Current" project selected and being worked upon
+    const [toDoTitle, setToDoTitle] = useState(""); // This is for the Modal (To-Do Modal)
+    const [toDoDescription, setToDoDescription] = useState("") // This is for the Modal (To-Do Modal)
 
-    // console.log("On mounting the component, value of projectTitle: " + projectTitle);
 
     const navigate = useNavigate();
 
     const toggleModal = () => {
         setModal(!modal);
     }
+
+    const toggleToDoModal = () => {
+        setToDoModal(!toDoModal);
+    }
+    
 
     const fetchName = useCallback(async () => {
         const safeToken = localStorage.getItem('token');
@@ -85,7 +91,7 @@ export function UserHome() {
                 }
             });
     
-            console.log(response);
+            // console.log(response);
             alert("Project Created");
             setProjectTitle("");
             setModal(false);
@@ -96,7 +102,31 @@ export function UserHome() {
             console.error("Error adding project:", e);
         }
     }, [projectTitle, fetchProjects, setProjectTitle, setModal]);
-    
+
+    const addTodo = useCallback(async () => {
+        // console.log("Todo creation got called");
+        // console.log("ToDo title: " + toDoTitle);
+        // console.log("ToDo Description: " + toDoDescription);
+        // console.log("ProjectId: " + currentProject._id);
+        try {
+            let safeToken = localStorage.getItem('token');
+            const response = await axios.post('http://localhost:3001/todo', {
+                title: toDoTitle,
+                description: toDoDescription,
+                projectId: currentProject._id,
+            }, {
+                headers: {
+                    "Authorization": `${safeToken}`
+                }
+            });
+
+            alert("Todo Created");
+            setToDoTitle("");
+            setToDoModal(false);
+        } catch(e) {
+            console.error("Error adding ToDo:", e);
+        }
+    })
     
     
     return(
@@ -111,7 +141,7 @@ export function UserHome() {
                     ) : numberOfProjects === 0 ? (
                         <div>
                             <BgImage opacity="0.05" />
-                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
+                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject} />
                             <div className="z-10">
                                 <Waves />
                                 <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
@@ -127,10 +157,21 @@ export function UserHome() {
                     ) : (
                         <div>
                             <BgImage opacity="0.1" />
-                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject}/>
+                            <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject} />
                             <div className="z-10">
                                 <Waves />
-                                {currentProject ? <ProjectHome projectName={currentProject.title} projectProgress={`${currentProject.progress}%`} /> : (
+                                {currentProject ? <ProjectHome 
+                                                    projectName={currentProject.title} 
+                                                    projectProgress={`${currentProject.progress}%`} 
+                                                    addTodo={addTodo}
+                                                    toDoTitle={toDoTitle}
+                                                    setToDoTitle={setToDoTitle}
+                                                    toDoDescription={toDoDescription}
+                                                    setToDoDescription={setToDoDescription}
+                                                    toDoModal={toDoModal}
+                                                    setToDoModal={setToDoModal}
+                                                    toggleToDoModal={toggleToDoModal}
+                                                    /> : (
                                     <div>
                                         <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
                                             Hi<span className="text-blue-marguerite-400">, </span> {name}

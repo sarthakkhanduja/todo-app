@@ -3,6 +3,7 @@ import { titleSchema, descriptionSchema } from '../validations/toDoValidation';
 import { useState } from 'react';
 import { useCallback } from 'react';
 
+
 function ToDoModal(props) {
     const [error, setError] = useState(null);
 
@@ -87,8 +88,8 @@ function ToDoModal(props) {
                 type="submit"
                 className="w-full mt-4 text-white bg-blue-marguerite-500 hover:bg-blue-marguerite-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={() => {
-                    alert("Creating Todo!");
-                    
+                  alert("Created Todo");
+                  props.addTodo();
                 }}
                 >
                 Confirm

@@ -4,13 +4,6 @@ import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import ToDoModal from "./ToDoModal";
 
 export function ProjectHome(props) {
-    const [toDoTitle, setToDoTitle] = useState("");
-    const [toDoDescription, setToDoDescription] = useState("");
-    const [toDoModal, setToDoModal] = useState(false);
-
-    const toggleToDoModal = () => {
-        setToDoModal(!toDoModal);
-    }
 
     const todos = [{
         id: 1,
@@ -115,24 +108,23 @@ export function ProjectHome(props) {
         // console.log(yetToStartTodo);
         // console.log(inProgressTodo);
         // console.log(completedTodo);
-    }
-    
-    
+    }    
 
     return (
         <div className="h-screen opacity-90">
             <ToDoModal 
-                setToDoTitle={setToDoTitle} 
-                toDoTitle={toDoTitle} 
-                toDoModal={toDoModal} 
-                setToDoModal={setToDoModal} 
-                setToDoDescription={setToDoDescription} 
-                toDoDescription={toDoDescription}
-                toggle={toggleToDoModal}
+                setToDoTitle={props.setToDoTitle} 
+                toDoTitle={props.toDoTitle} 
+                toDoModal={props.toDoModal} 
+                setToDoModal={props.setToDoModal} 
+                setToDoDescription={props.setToDoDescription} 
+                toDoDescription={props.toDoDescription}
+                toggle={props.toggleToDoModal}
+                addTodo={props.addTodo}
             />
             <div className="w-full px-16 py-8 flex justify-between items-center">
                 <p className="text-6xl font-bold">{props.projectName}</p>
-                <Button label="Add To-do" toggle={toggleToDoModal} />
+                <Button label="Add To-do" toggle={props.toggleToDoModal} />
             </div>
             <div className="px-16">
                 <div className="w-full bg-gray-200 rounded-full">
