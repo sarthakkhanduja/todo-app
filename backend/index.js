@@ -102,7 +102,7 @@ app.get("/projects", verifyToken, async (req, res) => {
 app.post("/todo", verifyToken, async (req, res) => {
   const newTodo = todoSchema.safeParse(req.body);
   // console.log("Body:" + req.body);
-  console.log(newTodo);
+  // console.log(newTodo);
 
   if (newTodo.success) {
     // put in mongoDB
@@ -161,13 +161,45 @@ app.post("/todo", verifyToken, async (req, res) => {
 });
 
 // Route to READ all Todo's
+// app.get("/todos", verifyToken, async (req, res) => {
+//   try {
+//     const body = getTodoSchema.safeParse(req.body);
+//     const currentUser = await User.findOne({ email: req.user.email });
+
+//     const project = await Project.findOne({
+//       _id: body.data.projectId,
+//       user: currentUser._id,
+//     });
+
+//     if (!project) {
+//       return res.status(404).json({ message: "Project not found" });
+//     }
+
+//     const todoIds = project.todos;
+
+//     const todos = await Todo.find({ _id: { $in: todoIds } });
+
+//     res.status(200).json({ todos });
+//   } catch (error) {
+//     console.error("Error fetching todos:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
+// Route to READ all Todo's
 app.get("/todos", verifyToken, async (req, res) => {
   try {
-    const body = getTodoSchema.safeParse(req.body);
+    const projectId = req.query.projectId; // Extract projectId from query parameters
+    // console.log(projectId);
+
+    if (!projectId) {
+      return res.status(400).json({ message: "projectId is required" });
+    }
+
     const currentUser = await User.findOne({ email: req.user.email });
 
     const project = await Project.findOne({
-      _id: body.data.projectId,
+      _id: projectId,
       user: currentUser._id,
     });
 
@@ -189,12 +221,14 @@ app.get("/todos", verifyToken, async (req, res) => {
 // Route to UPDATE the completion of todo's
 app.put("/updateStatus", verifyToken, async (req, res) => {
   const id = todoUpdateSchema.safeParse(req.body);
+  console.log(id);
 
   if (id.success) {
     // Update mongo DB
     const findTodo = await Todo.findOne({
       _id: id.data.id,
     });
+    console.log(findTodo);
     const associatedUserId = findTodo.user;
     const findUser = await User.findOne({
       _id: associatedUserId,
