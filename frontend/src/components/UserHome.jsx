@@ -13,23 +13,15 @@ export function UserHome() {
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
     const [modal, setModal] = useState(false); // Project Modal
-    const [toDoModal, setToDoModal] = useState(false); // To-do Modal
+    
     const [projectTitle, setProjectTitle] = useState(""); // This is for the Modal, NOT for the title at the top
     const [currentProject, setCurrentProject] = useState(null); // This is for the "Current" project selected and being worked upon
-    const [toDoTitle, setToDoTitle] = useState(""); // This is for the Modal (To-Do Modal)
-    const [toDoDescription, setToDoDescription] = useState("") // This is for the Modal (To-Do Modal)
-
-
+    
     const navigate = useNavigate();
 
     const toggleModal = () => {
         setModal(!modal);
-    }
-
-    const toggleToDoModal = () => {
-        setToDoModal(!toDoModal);
-    }
-    
+    }    
 
     const fetchName = useCallback(async () => {
         const safeToken = localStorage.getItem('token');
@@ -103,30 +95,7 @@ export function UserHome() {
         }
     }, [projectTitle, fetchProjects, setProjectTitle, setModal]);
 
-    const addTodo = useCallback(async () => {
-        // console.log("Todo creation got called");
-        // console.log("ToDo title: " + toDoTitle);
-        // console.log("ToDo Description: " + toDoDescription);
-        // console.log("ProjectId: " + currentProject._id);
-        try {
-            let safeToken = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/todo', {
-                title: toDoTitle,
-                description: toDoDescription,
-                projectId: currentProject._id,
-            }, {
-                headers: {
-                    "Authorization": `${safeToken}`
-                }
-            });
-
-            alert("Todo Created");
-            setToDoTitle("");
-            setToDoModal(false);
-        } catch(e) {
-            console.error("Error adding ToDo:", e);
-        }
-    })
+    
     
     
     return(
@@ -161,16 +130,9 @@ export function UserHome() {
                             <div className="z-10">
                                 <Waves />
                                 {currentProject ? <ProjectHome 
+                                                    currentProject={currentProject}
                                                     projectName={currentProject.title} 
                                                     projectProgress={`${currentProject.progress}%`} 
-                                                    addTodo={addTodo}
-                                                    toDoTitle={toDoTitle}
-                                                    setToDoTitle={setToDoTitle}
-                                                    toDoDescription={toDoDescription}
-                                                    setToDoDescription={setToDoDescription}
-                                                    toDoModal={toDoModal}
-                                                    setToDoModal={setToDoModal}
-                                                    toggleToDoModal={toggleToDoModal}
                                                     /> : (
                                     <div>
                                         <div className="w-full px-16 py-8 text-6xl font-bold mb-16">

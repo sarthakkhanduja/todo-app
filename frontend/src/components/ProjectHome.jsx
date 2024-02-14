@@ -1,9 +1,44 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import axios from "axios";
 import Todo from "./Todo";
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import ToDoModal from "./ToDoModal";
 
 export function ProjectHome(props) {
+
+    const [toDoModal, setToDoModal] = useState(false); // To-do Modal
+    const [toDoTitle, setToDoTitle] = useState(""); // This is for the Modal (To-Do Modal)
+    const [toDoDescription, setToDoDescription] = useState("") // This is for the Modal (To-Do Modal)
+
+    const toggleToDoModal = useCallback(() => {
+        setToDoModal(!toDoModal);
+    }, [toDoModal]);
+
+    const addTodo = useCallback(async () => {
+        console.log("Todo creation got called");
+        console.log("ToDo title: " + toDoTitle);
+        console.log("ToDo Description: " + toDoDescription);
+        console.log("ProjectId: " + props.currentProject._id);
+
+        try {
+            let safeToken = localStorage.getItem('token');
+            const response = await axios.post('http://localhost:3001/todo', {
+                title: toDoTitle,
+                description: toDoDescription,
+                projectId: props.currentProject._id,
+            }, {
+                headers: {
+                    "Authorization": `${safeToken}`
+                }
+            });
+
+            alert("Todo Created");
+            setToDoTitle("");
+            setToDoModal(false);
+        } catch(e) {
+            console.error("Error adding ToDo:", e);
+        }
+    })
 
     const todos = [{
         id: 1,
@@ -113,22 +148,22 @@ export function ProjectHome(props) {
     return (
         <div className="h-screen opacity-90">
             <ToDoModal 
-                setToDoTitle={props.setToDoTitle} 
-                toDoTitle={props.toDoTitle} 
-                toDoModal={props.toDoModal} 
-                setToDoModal={props.setToDoModal} 
-                setToDoDescription={props.setToDoDescription} 
-                toDoDescription={props.toDoDescription}
-                toggle={props.toggleToDoModal}
-                addTodo={props.addTodo}
+                setToDoTitle={setToDoTitle} 
+                toDoTitle={toDoTitle} 
+                toDoModal={toDoModal} 
+                setToDoModal={setToDoModal} 
+                setToDoDescription={setToDoDescription} 
+                toDoDescription={toDoDescription}
+                toggle={toggleToDoModal}
+                addTodo={addTodo}
             />
             <div className="w-full px-16 py-8 flex justify-between items-center">
-                <p className="text-6xl font-bold">{props.projectName}</p>
-                <Button label="Add To-do" toggle={props.toggleToDoModal} />
+                <p className="text-6xl font-bold">{props.currentProject.title}</p>
+                <Button label="Add To-do" toggle={toggleToDoModal} />
             </div>
             <div className="px-16">
                 <div className="w-full bg-gray-200 rounded-full">
-                    <div className="bg-blue-marguerite-400 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: props.projectProgress}}>{props.projectProgress}</div>
+                    <div className="bg-blue-marguerite-400 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: `${props.currentProject.progress}%`}}>{props.currentProject.progress}</div>
                 </div>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
