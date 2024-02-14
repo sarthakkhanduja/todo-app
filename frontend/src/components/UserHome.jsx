@@ -53,7 +53,7 @@ export function UserHome() {
                         "Authorization": `${safeToken}`,
                     }
                 });
-                console.log(response.data);
+                // console.log(response.data);
                 setProjectArray(response.data["allProjects"]);
                 setNumberOfProjects(response.data.allProjects.length);
                 setLoading(false);
