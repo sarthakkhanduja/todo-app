@@ -36,7 +36,7 @@ function Navbar() {
                 <img className="w-75" src={logo} alt="logo" />
             </div>
             <div className="flex justify-center items-center px-4">
-                <Button />
+                <Button label="Sign Up" route="/signup" />
             </div>
         </div>
     )
@@ -82,24 +82,40 @@ function Hero() {
                 <h2 className="text-7xl font-bold mb-10">Bring together all your tasks under one roof.</h2>
             </div>
             <div className="text-xl font-semibold mb-10">Struggling to organize tasks for different projects?<br /><span className="text-blue-marguerite-500 text-bold">Consolidate all your tasks in one place and track progress effortlessly.</span></div>
-            <div className="mt-4">
-                <Button />
+            <div className="mt-4 flex">
+                <Button label="Sign Up" route="/signup" />
+                <ButtonGreen label="Sign In" route="/signin" />
             </div>
         </div>
     )
 }
 
-function Button() {
+function Button(props) {
     return (
         <Link
-            to="/signup"
-            className="cursor-pointer relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+            to={props.route}
+            className="cursor-pointer relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
                 <svg className="w-5 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </span>
-            <span className="relative">Sign Up</span>
+            <span className="relative">{props.label}</span>
+        </Link>
+    );
+}
+
+function ButtonGreen(props) {
+    return (
+        <Link
+            to={props.route}
+            className="cursor-pointer relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-jade-600 border-2 border-jade-600 rounded-full hover:text-white group hover:bg-gray-50"
+        >
+            <span className="absolute left-0 block w-full h-0 transition-all bg-jade-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+            <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
+                <svg className="w-5 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </span>
+            <span className="relative">{props.label}</span>
         </Link>
     );
 }
