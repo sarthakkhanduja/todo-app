@@ -15,6 +15,7 @@ export function ProjectHome(props) {
     const [completedTodo, setCompletedTodo] = useState([]);
     const [todosLoading, setTodosLoading] = useState(false);
 
+
     const toggleToDoModal = useCallback(() => {
         setToDoModal(!toDoModal);
     }, [toDoModal]);
@@ -189,6 +190,13 @@ export function ProjectHome(props) {
         }
     };
 
+    const calculateProgress = () => {
+        const totalTodos = todos.length;
+        const completedTodos = completedTodo.length;
+        const progress = Math.round((completedTodos / totalTodos) * 100);
+        return isNaN(progress) ? 0 : progress;
+    }
+
     return (
         <div className="h-screen opacity-90">
             <ToDoModal 
@@ -207,7 +215,7 @@ export function ProjectHome(props) {
             </div>
             <div className="px-16">
                 <div className="w-full bg-gray-200 rounded-full">
-                    <div className="bg-blue-marguerite-400 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{width: `${props.currentProject.progress}%`}}>{props.currentProject.progress}</div>
+                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-85 group-hover:opacity-100 transition duration-1000 text-center group-hover:duration-200 text-white" style={{ width: `${calculateProgress()}%` }}>{`${calculateProgress()}%`}</div>
                 </div>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
