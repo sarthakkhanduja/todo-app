@@ -25,7 +25,7 @@ export function UserHome() {
 
     const toggleModal = () => {
         setModal(!modal);
-    }    
+    }
 
     const fetchName = useCallback(async () => {
         const safeToken = localStorage.getItem('token');
@@ -99,6 +99,12 @@ export function UserHome() {
         }
     }, [projectTitle, fetchProjects, setProjectTitle, setModal]);
 
+    const signOut = () => {
+        // Remove the token from localStorage
+        localStorage.removeItem('token');
+    
+        navigate("/signin"); // Redirect using Reach Router navigate function
+    }
     
     
     
@@ -106,7 +112,7 @@ export function UserHome() {
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
-                    <Sidebar projectArray={projectArray} toggle={toggleModal} currentProject={currentProject} setCurrentProject={setCurrentProject} />
+                    <Sidebar projectArray={projectArray} toggle={toggleModal} currentProject={currentProject} setCurrentProject={setCurrentProject} signOut={signOut} />
                 </div>
                 <div className="col-span-5 relative z-10">
                 {loading ? (

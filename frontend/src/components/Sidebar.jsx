@@ -7,6 +7,7 @@ export function Sidebar(props) {
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
+    
 
     return (
         <aside
@@ -73,9 +74,7 @@ export function Sidebar(props) {
                         key={"signOut"}
                         type="button"
                         className="flex items-center w-full p-2 text-base text-white bg-gray-700 transition duration-75 rounded-lg group hover:bg-blue-marguerite-400"
-                        onClick={() => {
-                            props.setCurrentProject(null);
-                        }}
+                        onClick={props.signOut}
                         aria-controls="dropdown">
                         <svg
                             className="flex-shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-gray-900"
