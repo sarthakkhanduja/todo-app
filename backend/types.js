@@ -9,6 +9,10 @@ const todoSchema = z.object({
   projectId: z.string(),
 });
 
+const getTodoSchema = z.object({
+  projectId: z.string(),
+});
+
 const todoUpdateSchema = z.object({
   id: z.string(),
   status: z
@@ -43,4 +47,5 @@ module.exports = {
   signUpSchema: signUpSchema,
   signInSchema: signInSchema,
   projectSchema: projectSchema,
+  getTodoSchema: getTodoSchema,
 };

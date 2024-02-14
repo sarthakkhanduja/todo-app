@@ -7,6 +7,7 @@ const {
   signUpSchema,
   signInSchema,
   projectSchema,
+  getTodoSchema,
 } = require("./types");
 const { Todo, User, Project } = require("./db");
 const jwt = require("jsonwebtoken");
@@ -161,20 +162,27 @@ app.post("/todo", verifyToken, async (req, res) => {
 
 // Route to READ all Todo's
 app.get("/todos", verifyToken, async (req, res) => {
-  //get todos from mongoDB
   try {
-    const currentUser = await User.findOne({
-      email: req.user.email,
+    const body = getTodoSchema.safeParse(req.body);
+    const currentUser = await User.findOne({ email: req.user.email });
+
+    const project = await Project.findOne({
+      _id: body.data.projectId,
+      user: currentUser._id,
     });
-    const userId = currentUser._id;
-    const allTodos = await Todo.find({ user: userId });
-    res.status(200).json({
-      allTodos,
-    });
-  } catch (e) {
-    res.status(400).json({
-      message: "Some error occurred",
-    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const todoIds = project.todos;
+
+    const todos = await Todo.find({ _id: { $in: todoIds } });
+
+    res.status(200).json({ todos });
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
