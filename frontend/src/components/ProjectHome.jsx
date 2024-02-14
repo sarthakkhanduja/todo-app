@@ -3,22 +3,47 @@ import axios from "axios";
 import Todo from "./Todo";
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import ToDoModal from "./ToDoModal";
+import { useEffect } from "react";
 
 export function ProjectHome(props) {
-
+    const [todos, setTodos] = useState([]);
     const [toDoModal, setToDoModal] = useState(false); // To-do Modal
     const [toDoTitle, setToDoTitle] = useState(""); // This is for the Modal (To-Do Modal)
     const [toDoDescription, setToDoDescription] = useState("") // This is for the Modal (To-Do Modal)
+    const [yetToStartTodo, setYetToStartTodo] = useState([]);
+    const [inProgressTodo, setInProgressTodo] = useState([]);
+    const [completedTodo, setCompletedTodo] = useState([]);
 
     const toggleToDoModal = useCallback(() => {
         setToDoModal(!toDoModal);
     }, [toDoModal]);
 
+    const fetchTodo = useCallback(async () => {
+        // console.log("GET Todos called!");
+        // console.log(props.currentProject._id);
+    
+        const safeToken = localStorage.getItem('token');
+        // console.log(safeToken);
+        // console.log(typeof safeToken);
+    
+        try {
+            const response = await axios.get('http://localhost:3001/todos', {
+                params: {
+                    projectId: props.currentProject._id,
+                },
+                headers: {
+                    "Authorization": safeToken,
+                }
+            });
+    
+            console.log(response.data.todos);
+            setTodos(response.data.todos);
+        } catch(e) {
+            console.error("Error fetching Todos:", e);
+        }
+    }, [props.currentProject, toDoModal]);
+
     const addTodo = useCallback(async () => {
-        console.log("Todo creation got called");
-        console.log("ToDo title: " + toDoTitle);
-        console.log("ToDo Description: " + toDoDescription);
-        console.log("ProjectId: " + props.currentProject._id);
 
         try {
             let safeToken = localStorage.getItem('token');
@@ -38,51 +63,32 @@ export function ProjectHome(props) {
         } catch(e) {
             console.error("Error adding ToDo:", e);
         }
-    })
+    }, [fetchTodo, props.currentProject, toDoDescription, toDoTitle]);
 
-    const todos = [{
-        id: 1,
-        title: "Call parents",
-        description: "They're in Jaipur, so only call during the night. They're in Jaipur, so only call during the night. They're in Jaipur, so only call during the night. They're in Jaipur, so only call during the night.",
-        status: "Yet to Start"
-    }, {
-        id: 2,
-        title: "Complete Cohort",
-        description: "Work on videos from week 8",
-        status: "Yet to Start"
-    }, {
-        id: 3,
-        title: "Laundry",
-        description: "Use the new machines in the room",
-        status: "In Progress"
-    }, {
-        id: 4,
-        title: "Something",
-        description: "ifbvkjbxc",
-        status: "In Progress"
-    }]
 
-    const ytsTodos = todos.filter((todo) => {
-        return todo.status === "Yet to Start";
-    });
+    useEffect(() => {
+        fetchTodo();
+    }, [props.currentProject, toDoModal]);
+
+    useEffect(() => {
+        const ytsTodos = todos.filter((todo) => {
+            return todo.status === "Yet to Start";
+        });
+        console.log(ytsTodos);
+        
+        const ipTodos = todos.filter((todo) => {
+            return todo.status === "In Progress";
+        });
+        
+        const cTodos = todos.filter((todo) => {
+            return todo.status === "Completed";
+        });
+
+        setYetToStartTodo(ytsTodos);
+        setInProgressTodo(ipTodos);
+        setCompletedTodo(cTodos);
+    }, [todos, props.currentProject]);
     
-    const ipTodos = todos.filter((todo) => {
-        return todo.status === "In Progress";
-    });
-    
-    const cTodos = todos.filter((todo) => {
-        return todo.status === "Completed";
-    });
-    
-
-    // console.log(ytsTodos);
-    // console.log(ipTodos);
-    // console.log(cTodos);
-
-    const [yetToStartTodo, setYetToStartTodo] = useState(ytsTodos);
-    const [inProgressTodo, setInProgressTodo] = useState(ipTodos);
-    const [completedTodo, setCompletedTodo] = useState(cTodos);
-
     const columnMapping = {
         "yetToStart": "Yet to Start",
         "inProgress": "In Progress",
@@ -119,30 +125,17 @@ export function ProjectHome(props) {
             destinationColumn = completedTodo;
         }
 
-        // console.log(sourceColumn);
-        // console.log(destinationColumn);
-
-        // Remove dragged item from source column
         const draggedItem = sourceColumn.splice(source.index, 1)[0];
-
-        // console.log(draggedItem);
-        // console.log(sourceColumn);
-
         draggedItem.status = columnMapping[destination.droppableId];
     
         // Insert dragged item into destination column
         destinationColumn.splice(destination.index, 0, draggedItem);
         
-        // console.log(destinationColumn);
-
         // Update state with new arrays
         setYetToStartTodo([...yetToStartTodo]);
         setInProgressTodo([...inProgressTodo]);
         setCompletedTodo([...completedTodo]);
 
-        // console.log(yetToStartTodo);
-        // console.log(inProgressTodo);
-        // console.log(completedTodo);
     }    
 
     return (
@@ -176,7 +169,7 @@ export function ProjectHome(props) {
                             {(provided) => (
                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                     {yetToStartTodo.map((todo, index) => (
-                                        todo.status == "Yet to Start" ? <Todo key={todo.id} id={todo.id} title={todo.title} description={todo.description} index={index} /> : ""
+                                        todo.status == "Yet to Start" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                     ))}
                                     {provided.placeholder}
                                 </div>
@@ -191,7 +184,7 @@ export function ProjectHome(props) {
                             {(provided) => (
                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                     {inProgressTodo.map((todo, index) => (
-                                        todo.status == "In Progress" ? <Todo key={todo.id} id={todo.id} title={todo.title} description={todo.description} index={index} /> : ""
+                                        todo.status == "In Progress" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                     ))}
                                     {provided.placeholder}
                                 </div>
@@ -206,7 +199,7 @@ export function ProjectHome(props) {
                             {(provided) => (
                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                     {completedTodo.map((todo, index) => (
-                                        todo.status == "Completed" ? <Todo key={todo.id} id={todo.id} title={todo.title} description={todo.description} index={index} /> : ""
+                                        todo.status == "Completed" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                     ))}
                                     {provided.placeholder}
                                 </div>
