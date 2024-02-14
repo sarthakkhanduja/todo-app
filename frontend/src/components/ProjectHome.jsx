@@ -13,6 +13,7 @@ export function ProjectHome(props) {
     const [yetToStartTodo, setYetToStartTodo] = useState([]);
     const [inProgressTodo, setInProgressTodo] = useState([]);
     const [completedTodo, setCompletedTodo] = useState([]);
+    const [todosLoading, setTodosLoading] = useState(false);
 
     const toggleToDoModal = useCallback(() => {
         setToDoModal(!toDoModal);
@@ -95,8 +96,24 @@ export function ProjectHome(props) {
         "completed": "Completed"
     }
 
-    const onDragEnd = (result) => {
-        // console.log(result);
+    const updateTodoStatus = async (id, status) => {
+        try {
+            let safeToken = localStorage.getItem('token');
+            const response = await axios.put('http://localhost:3001/updateStatus', {
+                id: id,
+                status: status
+            }, {
+                headers: {
+                    "Authorization": `${safeToken}`
+                }
+            });
+
+        } catch (error) {
+            console.error("Error updating todo status:", error);
+        }
+    };
+
+    const onDragEnd = async (result) => {
         const { destination, source, draggableId } = result;
     
         if (!destination) {
@@ -124,19 +141,53 @@ export function ProjectHome(props) {
         } else if (destination.droppableId === 'completed') {
             destinationColumn = completedTodo;
         }
-
-        const draggedItem = sourceColumn.splice(source.index, 1)[0];
-        draggedItem.status = columnMapping[destination.droppableId];
     
-        // Insert dragged item into destination column
-        destinationColumn.splice(destination.index, 0, draggedItem);
+        const draggedItem = sourceColumn.find(todo => todo._id === draggableId);
+        const newSourceColumn = sourceColumn.filter(todo => todo._id !== draggableId);
+    
+        if (source.droppableId === destination.droppableId) {
+            const reorderedItems = Array.from(sourceColumn);
+            const [removedItem] = reorderedItems.splice(source.index, 1);
+            reorderedItems.splice(destination.index, 0, removedItem);
+    
+            if (source.droppableId === 'yetToStart') {
+                setYetToStartTodo(reorderedItems);
+            } else if (source.droppableId === 'inProgress') {
+                setInProgressTodo(reorderedItems);
+            } else if (source.droppableId === 'completed') {
+                setCompletedTodo(reorderedItems);
+            }
+        } else {
+            // If the source and destination columns are different, remove the item from the source column and add it to the destination column
+            const newDestinationColumn = Array.from(destinationColumn);
+            newDestinationColumn.splice(destination.index, 0, draggedItem);
+            if (source.droppableId === 'yetToStart') {
+                setYetToStartTodo([...newSourceColumn]);
+                setInProgressTodo([...newDestinationColumn]);
+                setCompletedTodo([...newDestinationColumn]);
+            } else if (source.droppableId === 'inProgress') {
+                setYetToStartTodo([...newDestinationColumn]);
+                setInProgressTodo([...newSourceColumn]);
+                setCompletedTodo([...newDestinationColumn]);
+            } else if (source.droppableId === 'completed') {
+                setYetToStartTodo([...newDestinationColumn]);
+                setInProgressTodo([...newDestinationColumn]);
+                setCompletedTodo([...newSourceColumn]);
+            }
+            // Show loading state
+            setTodosLoading(true);
         
-        // Update state with new arrays
-        setYetToStartTodo([...yetToStartTodo]);
-        setInProgressTodo([...inProgressTodo]);
-        setCompletedTodo([...completedTodo]);
+            // Update todo status
+            await updateTodoStatus(draggedItem._id, columnMapping[destination.droppableId]);
+        
+            // Fetch updated todo list
+            await fetchTodo();
 
-    }    
+            props.setUpdated(true);
+            // Hide loading state
+            setTodosLoading(false);
+        }
+    };
 
     return (
         <div className="h-screen opacity-90">
@@ -165,46 +216,49 @@ export function ProjectHome(props) {
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Yet to Start
                         </div>
-                        <Droppable droppableId="yetToStart">
-                            {(provided) => (
-                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
-                                    {yetToStartTodo.map((todo, index) => (
-                                        todo.status == "Yet to Start" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
+                        {todosLoading ? "Loading..." : <Droppable droppableId="yetToStart">
+                                                            {(provided) => (
+                                                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
+                                                                    {yetToStartTodo.map((todo, index) => (
+                                                                        todo.status == "Yet to Start" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                    ))}
+                                                                    {provided.placeholder}
+                                                                </div>
+                                                            )}
+                                                        </Droppable>}
+                        
                     </div>
                     <div className="col-span-1 bg-yellow-200 rounded-xl">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             In Progress
                         </div>
-                        <Droppable droppableId="inProgress">
-                            {(provided) => (
-                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
-                                    {inProgressTodo.map((todo, index) => (
-                                        todo.status == "In Progress" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
+                        {todosLoading ? "Loading..." : <Droppable droppableId="inProgress">
+                                                            {(provided) => (
+                                                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
+                                                                    {inProgressTodo.map((todo, index) => (
+                                                                        todo.status == "In Progress" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                    ))}
+                                                                    {provided.placeholder}
+                                                                </div>
+                                                            )}
+                                                        </Droppable>}
+                        
                     </div>
                     <div className="col-span-1 bg-green-200 rounded-xl">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Completed
                         </div>
-                        <Droppable droppableId="completed">
-                            {(provided) => (
-                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
-                                    {completedTodo.map((todo, index) => (
-                                        todo.status == "Completed" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
+                        {todosLoading ? "Loading..." : <Droppable droppableId="completed">
+                                                            {(provided) => (
+                                                                <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
+                                                                    {completedTodo.map((todo, index) => (
+                                                                        todo.status == "Completed" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                    ))}
+                                                                    {provided.placeholder}
+                                                                </div>
+                                                            )}
+                                                        </Droppable>}
+                        
                     </div>
                 </div>
             </DragDropContext>

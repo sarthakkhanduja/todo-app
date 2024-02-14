@@ -16,6 +16,8 @@ export function UserHome() {
     
     const [projectTitle, setProjectTitle] = useState(""); // This is for the Modal, NOT for the title at the top
     const [currentProject, setCurrentProject] = useState(null); // This is for the "Current" project selected and being worked upon
+
+    const [updated, setUpdated] = useState(false);
     
     const navigate = useNavigate();
 
@@ -133,6 +135,8 @@ export function UserHome() {
                                                     currentProject={currentProject}
                                                     projectName={currentProject.title} 
                                                     projectProgress={`${currentProject.progress}%`} 
+                                                    updated={updated}
+                                                    setUpdated={setUpdated}
                                                     /> : (
                                     <div>
                                         <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
