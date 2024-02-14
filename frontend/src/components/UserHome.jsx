@@ -5,6 +5,8 @@ import { Sidebar } from "./Sidebar";
 import bgImg from "../assets/ooorganize.svg";
 import ProjectModal from "./ProjectModal";
 import { useNavigate } from 'react-router-dom';
+import { experimental_useOptimistic as useOptimistic } from 'react';
+
 
 
 export function UserHome() {

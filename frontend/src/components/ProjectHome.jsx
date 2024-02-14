@@ -212,11 +212,13 @@ export function ProjectHome(props) {
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="px-16 mt-2 grid grid-cols-3 py-3 gap-4 h-5/6">
-                    <div className="col-span-1 bg-red-200 rounded-xl">
+                    <div className="col-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Yet to Start
                         </div>
-                        {todosLoading ? "Loading..." : <Droppable droppableId="yetToStart">
+                        {todosLoading ? <div className="h-full w-full flex justify-center items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 -50 400 400"><rect fill="#FF0F53" stroke="#FF0F53" stroke-width="3" width="30" height="30" x="25" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></rect><rect fill="#FF0F53" stroke="#FF0F53" stroke-width="3" width="30" height="30" x="85" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></rect><rect fill="#FF0F53" stroke="#FF0F53" stroke-width="3" width="30" height="30" x="145" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></rect></svg>
+                                        </div> : <Droppable droppableId="yetToStart">
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {yetToStartTodo.map((todo, index) => (
@@ -228,11 +230,13 @@ export function ProjectHome(props) {
                                                         </Droppable>}
                         
                     </div>
-                    <div className="col-span-1 bg-yellow-200 rounded-xl">
+                    <div className="col-span-1 bg-yellow-200 rounded-xl overflow-auto yellow-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             In Progress
                         </div>
-                        {todosLoading ? "Loading..." : <Droppable droppableId="inProgress">
+                        {todosLoading ? <div className="h-full w-full flex justify-center items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 -50 400 400"><rect fill="#FFCD0B" stroke="#FFCD0B" stroke-width="3" width="30" height="30" x="25" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></rect><rect fill="#FFCD0B" stroke="#FFCD0B" stroke-width="3" width="30" height="30" x="85" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></rect><rect fill="#FFCD0B" stroke="#FFCD0B" stroke-width="3" width="30" height="30" x="145" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></rect></svg>
+                                        </div> : <Droppable droppableId="inProgress">
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {inProgressTodo.map((todo, index) => (
@@ -244,11 +248,13 @@ export function ProjectHome(props) {
                                                         </Droppable>}
                         
                     </div>
-                    <div className="col-span-1 bg-green-200 rounded-xl">
+                    <div className="col-span-1 bg-green-200 rounded-xl overflow-auto green-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Completed
                         </div>
-                        {todosLoading ? "Loading..." : <Droppable droppableId="completed">
+                        {todosLoading ? <div className="h-full w-full flex justify-center items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 -50 400 400"><rect fill="#06FF36" stroke="#06FF36" stroke-width="3" width="30" height="30" x="25" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></rect><rect fill="#06FF36" stroke="#06FF36" stroke-width="3" width="30" height="30" x="85" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></rect><rect fill="#06FF36" stroke="#06FF36" stroke-width="3" width="30" height="30" x="145" y="85"><animate attributeName="opacity" calcMode="spline" dur="1.8" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></rect></svg>
+                                        </div> : <Droppable droppableId="completed">
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {completedTodo.map((todo, index) => (
