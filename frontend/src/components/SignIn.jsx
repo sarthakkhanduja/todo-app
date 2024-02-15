@@ -118,12 +118,12 @@ export function SignIn() {
                 <ErrorAlert label={label} />
             )}
             <BgImage />
-            <div className="grid z-10 grid-cols-2 bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
-                <div className="flex items-center">
+            <div className="lg:grid z-10 lg:grid-cols-2 flex flex-col bg-white w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+                <div className="hidden lg:flex items-center">
                     <img className="object-cover" src={signInPicture} alt="picture" />
                 </div>
-                <div className="px-9 py-9">
-                    <div className="text-4xl font-bold text-gray-900 py-8 px-5">
+                <div className="md:px-9 md:py-9 px-4 py-4">
+                    <div className="xl:text-4xl md:text-2xl text-xl font-bold text-gray-900 py-8 px-5">
                         <p>Hello, again! 👋</p>
                     </div>
                     <Field label="Email" givenType="text" setFn={setEmail} validateFn={validateEmail} setError={setEmailError} error={emailError} val={email}/>
