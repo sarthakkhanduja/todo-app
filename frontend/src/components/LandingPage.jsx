@@ -74,9 +74,9 @@ function Wave() {
 
 function Footer() {
     return (
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center font-display items-center">
             Made by{' '}
-            <a className="text-blue-marguerite-400 pl-1 font-semibold" href="https://linkedin.com/in/sarthakkhanduja" target="_blank" rel="noopener noreferrer">
+            <a className="text-blue-marguerite-400 pl-1 font-display font-semibold" href="https://linkedin.com/in/sarthakkhanduja" target="_blank" rel="noopener noreferrer">
                 Sarthak Khanduja
             </a>
         </div>
@@ -95,10 +95,17 @@ function HeroImage() {
 function Hero() {
     return(
         <div className="w-full flex flex-col px-36 pt-48">
-            <div className="heading">
-                <h2 className="text-7xl font-bold mb-10">Bring together all your tasks under one roof.</h2>
+            <div className="">
+                {/* <h2 className="text-6xl font-display font-bold mb-10 underline decoration-blue-marguerite-300 underline-offset-0 decoration-3">Bring together all your tasks under one roof.</h2> */}
+                <h2 className="text-6xl font-display font-bold mb-10">
+                    <span className="">Bring together all your</span>
+                    <span className="bg-gradient-to-t from-blue-marguerite-400 to-sky-blue-marguerite-200 bg-[length:95%_12px] bg-no-repeat bg-bottom-4 mx-3">tasks</span>
+                    <span className="">under one roof</span>
+                </h2>
             </div>
-            <div className="text-xl font-semibold mb-10">Struggling to organize tasks for different projects?<br /><span className="text-blue-marguerite-500 text-bold">Consolidate all your tasks in one place and track progress effortlessly.</span></div>
+            <div className="mb-10 font-display font-medium">
+                <p className="p-2 text-4xl bg-gradient-to-r from-blue-marguerite-500 to-jade-400 text-transparent bg-clip-text">Organize. Analyze. Visualize.</p>
+            </div>
             <div className="mt-4 flex">
                 <Button label="Sign Up" route="/signup" />
                 <ButtonGreen label="Sign In" route="/signin" />
@@ -111,7 +118,7 @@ function Button(props) {
     return (
         <Link
             to={props.route}
-            className="cursor-pointer relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+            className="font-display cursor-pointer relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
@@ -126,7 +133,7 @@ function ButtonGreen(props) {
     return (
         <Link
             to={props.route}
-            className="cursor-pointer relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-jade-600 border-2 border-jade-600 rounded-full hover:text-white group hover:bg-gray-50"
+            className="cursor-pointer font-display relative inline-flex items-center mx-2 pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-jade-600 border-2 border-jade-600 rounded-full hover:text-white group hover:bg-gray-50"
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-jade-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
