@@ -237,13 +237,41 @@ app.put("/updateStatus", verifyToken, async (req, res) => {
     if (findUser.email == req.user.email) {
       try {
         if (id.data.status === "Completed") {
+          const todoNotInProg = await Todo.findOne({
+            _id: id.data.id,
+            inProgressAt: null,
+          });
+          if (todoNotInProg) {
+            const updateTodo = await Todo.updateOne(
+              {
+                _id: id.data.id,
+              },
+              {
+                status: id.data.status,
+                completedAt: new Date(),
+                inProgressAt: new Date(),
+              }
+            );
+          } else {
+            const updateTodo = await Todo.updateOne(
+              {
+                _id: id.data.id,
+              },
+              {
+                status: id.data.status,
+                completedAt: new Date(),
+              }
+            );
+          }
+        } else if (id.data.status === "In Progress") {
           const updateTodo = await Todo.updateOne(
             {
               _id: id.data.id,
             },
             {
               status: id.data.status,
-              completedAt: new Date(),
+              completedAt: null,
+              inProgressAt: new Date(),
             }
           );
         } else {
@@ -254,6 +282,7 @@ app.put("/updateStatus", verifyToken, async (req, res) => {
             {
               status: id.data.status,
               completedAt: null,
+              inProgressAt: null,
             }
           );
         }
