@@ -4,6 +4,7 @@ import { SignIn } from './components/SignIn';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { LandingPage } from './components/LandingPage';
 import { UserHome } from './components/UserHome';
+import Dashboard from './components/Dashboard';
 
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/userhome" element={<UserHome />} />
+
+        <Route path='/dashboard' element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   )
