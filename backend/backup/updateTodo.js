@@ -20,11 +20,16 @@ const Todo = mongoose.model("Todo", {
 
 // Function to update Todo documents
 async function updateTodos() {
+  const currDate = new Date();
   try {
-    await Todo.updateMany({}, [
-      { $set: { status: "Yet to Start", project: null } }, // Add status with default value and set project to null
-      { $unset: ["completedAt", "completed"] }, // Remove completedAt and completed fields
-    ]);
+    await Todo.updateMany(
+      {
+        status: "Completed",
+      },
+      [
+        { $set: { completedAt: currDate } }, // Add status with default value and set project to null
+      ]
+    );
 
     console.log("Todos updated");
   } catch (error) {

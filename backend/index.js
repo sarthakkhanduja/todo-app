@@ -221,14 +221,14 @@ app.get("/todos", verifyToken, async (req, res) => {
 // Route to UPDATE the completion of todo's
 app.put("/updateStatus", verifyToken, async (req, res) => {
   const id = todoUpdateSchema.safeParse(req.body);
-  console.log(id);
+  // console.log(id);
 
   if (id.success) {
     // Update mongo DB
     const findTodo = await Todo.findOne({
       _id: id.data.id,
     });
-    console.log(findTodo);
+    // console.log(findTodo);
     const associatedUserId = findTodo.user;
     const findUser = await User.findOne({
       _id: associatedUserId,
@@ -236,14 +236,27 @@ app.put("/updateStatus", verifyToken, async (req, res) => {
 
     if (findUser.email == req.user.email) {
       try {
-        const updateTodo = await Todo.updateOne(
-          {
-            _id: id.data.id,
-          },
-          {
-            status: id.data.status,
-          }
-        );
+        if (id.data.status === "Completed") {
+          const updateTodo = await Todo.updateOne(
+            {
+              _id: id.data.id,
+            },
+            {
+              status: id.data.status,
+              completedAt: new Date(),
+            }
+          );
+        } else {
+          const updateTodo = await Todo.updateOne(
+            {
+              _id: id.data.id,
+            },
+            {
+              status: id.data.status,
+              completedAt: null,
+            }
+          );
+        }
 
         // Finding the associated project with the given ToDo
         const associatedProject = await Project.findOne({

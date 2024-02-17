@@ -53,6 +53,10 @@ const ToDoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
   },
+  completedAt: {
+    type: Date,
+    default: null,
+  },
 });
 
 const UserSchema = new mongoose.Schema({
