@@ -216,19 +216,19 @@ export function ProjectHome(props) {
             <div className="w-full px-16 py-8 flex justify-between items-center">
                 <p className="text-6xl font-bold">{props.currentProject.title}</p>
                 
-                <div className="inline-flex items-center p-2 rounded-md cursor-pointer dark:text-gray-800" onClick={() => {
+                <div className="inline-flex items-center p-2 rounded-lg cursor-pointer dark:text-gray-800" onClick={() => {
                     toggleComponent()
                     }}>
                     <span
-                        className={`px-4 py-2 rounded-l-md ${
-                            toggleState ? 'bg-blue-marguerite-400 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-400'
+                        className={`px-4 py-2 rounded-l-lg ${
+                            toggleState ? 'bg-blue-marguerite-300 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-300'
                         } transition-colors duration-300`}
                     >
                         Tasks
                     </span>
                     <span
-                        className={`px-4 py-2 rounded-r-md ${
-                            toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-400' : 'bg-blue-marguerite-400 peer-checked:bg-gray-300'
+                        className={`px-4 py-2 rounded-r-lg ${
+                            toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-300' : 'bg-blue-marguerite-300 peer-checked:bg-gray-300'
                         } transition-colors duration-300`}
                     >
                         Dashboard
@@ -238,12 +238,13 @@ export function ProjectHome(props) {
                 <Button label="Add To-do" toggle={toggleToDoModal} />
             </div>
 
-            <div className="px-16">
+            <div className="px-16 flex flex-col">
+                <p className="font-lg font-semibold mb-2">Progress: </p>
                 <div className="w-full bg-gray-200 rounded-full">
                     <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-85 group-hover:opacity-100 transition duration-1000 text-center group-hover:duration-200 text-white" style={{ width: `${calculateProgress()}%` }}>{`${calculateProgress()}%`}</div>
                 </div>
             </div>
-            {toggleState ? <div className="h-[950px]">            
+            {toggleState ? <div className="h-[900px]">            
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="px-16 mt-2 grid grid-cols-3 py-3 gap-4 h-5/6">
                     <div className="col-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
@@ -302,7 +303,7 @@ export function ProjectHome(props) {
                     </div>
                 </div>
             </DragDropContext>
-            </div> : <Dashboard />}
+            </div> : <Dashboard todos={todos} />}
             
         </div>
     );

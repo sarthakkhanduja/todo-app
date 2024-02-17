@@ -4,97 +4,47 @@ import { useState } from 'react'
 import PieChart from './PieChart'
 import { useEffect } from 'react'
 
-function Dashboard() {
-    const data = [
-        {
-            "_id": "65c5f59fb7058a842efc40c1",
-            "title": "New Todo Title",
-            "description": "Description of the new todo",
-            "status": "Completed",
-            "user": "65c1e071743f980fd67f0611",
-            "project": "65c5da0f86dbc271cf1b8b8e",
-            "createdAt": "2024-02-09T09:51:27.327Z",
-            "__v": 0,
-            "completedAt": "2024-02-10T01:50:32.231Z"
-        },
-        {
-            "_id": "65c5f5bfb7058a842efc40c7",
-            "title": "New Todo Title 2",
-            "description": "Description of the new todo 2",
-            "status": "Completed",
-            "user": "65c1e071743f980fd67f0611",
-            "project": "65c5da0f86dbc271cf1b8b8e",
-            "createdAt": "2024-02-09T09:51:59.662Z",
-            "__v": 0,
-            "completedAt": "2024-02-17T01:50:32.231Z"
-        },
-        {
-            "_id": "65cffa101f527ae781724a08",
-            "title": "Test Todo",
-            "description": "This is to test the completedAt part of the DB",
-            "status": "In Progress",
-            "user": "65c1e071743f980fd67f0611",
-            "project": "65c5da0f86dbc271cf1b8b8e",
-            "completedAt": null,
-            "createdAt": "2024-02-17T00:13:04.674Z",
-            "__v": 0
-        },
-        {
-            "_id": "65d010f410830cc93f8250b9",
-            "title": "What to do",
-            "description": "I don't know",
-            "status": "Completed",
-            "user": "65c1e071743f980fd67f0611",
-            "project": "65c5da0f86dbc271cf1b8b8e",
-            "completedAt": "2024-02-17T01:51:02.165Z",
-            "createdAt": "2024-02-17T01:50:44.051Z",
-            "__v": 0
-        },
-        {
-            "_id": "65d0110310830cc93f8250c4",
-            "title": "How to do",
-            "description": "I thought you'd know",
-            "status": "Yet to Start",
-            "user": "65c1e071743f980fd67f0611",
-            "project": "65c5da0f86dbc271cf1b8b8e",
-            "completedAt": null,
-            "createdAt": "2024-02-17T01:50:59.031Z",
-            "__v": 0
-        }
-    ]
+function Dashboard(props) {
+    const [averageCompletionTime, setAverageCompletionTime] = useState(0);
 
     function calculateAverageCompletionTime(projectData) {
         let totalCompletedTodos = 0;
-        let totalTime = 0;
-      
+        let totalTimeInMilliseconds = 0;
+    
         projectData.forEach(todo => {
-          if (todo.status === 'Completed' && todo.completedAt) {
-            const createdAt = new Date(todo.createdAt);
-            const completedAt = new Date(todo.completedAt);
-            const timeDifference = completedAt - createdAt; // Difference in milliseconds
-            
-            totalTime += timeDifference;
-            totalCompletedTodos++;
-          }
+            if ((todo.status === 'Completed' && todo.completedAt) && (todo.completedAt !== todo.inProgressAt)) {
+                const inProgressAt = new Date(todo.inProgressAt);
+                const completedAt = new Date(todo.completedAt);
+                const timeDifference = completedAt - inProgressAt; // Difference in milliseconds
+    
+                totalTimeInMilliseconds += timeDifference;
+                totalCompletedTodos++;
+            }
         });
-      
+    
         if (totalCompletedTodos === 0) {
-          return 0; // No completed todos, return 0
+            return { days: '-', hours: '-', mins: '-' }; // No completed todos, return 0 days and 0 hours
         }
-      
-        const averageTime = totalTime / totalCompletedTodos; // Average time in milliseconds
-        const hours = Math.floor(averageTime / (1000 * 60 * 60));
-        const minutes = Math.floor((averageTime % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((averageTime % (1000 * 60)) / 1000);
-      
-        return { hours, minutes, seconds };
+    
+        const averageTimeInMilliseconds = totalTimeInMilliseconds / totalCompletedTodos; // Average time in milliseconds
+    
+        const days = Math.floor(averageTimeInMilliseconds / (1000 * 60 * 60 * 24));
+        const remainingHoursInMilliseconds = averageTimeInMilliseconds % (1000 * 60 * 60 * 24);
+        const hours = Math.floor(remainingHoursInMilliseconds / (1000 * 60 * 60));
+        const remainingMinsInMilliseconds = averageTimeInMilliseconds % (1000 * 60 * 60);
+        const mins = Math.floor(remainingMinsInMilliseconds / (1000 * 60));
+    
+        return { days, hours, mins };
     }
+    
 
-    const [averageCompletionTime, setAverageCompletionTime] = useState(0);
+    
 
     useEffect(() => {
-        const avgTime = calculateAverageCompletionTime(data);
+        const avgTime = calculateAverageCompletionTime(props.todos);
         setAverageCompletionTime(avgTime);
+        console.log(averageCompletionTime);
+        console.log(typeof averageCompletionTime);
     }, []);
       
     
@@ -111,7 +61,7 @@ function Dashboard() {
         }
         return ans;
     }
-    const statusData = getStatusData(data);
+    const statusData = getStatusData(props.todos);
 
     const [barData, setBarData] = useState({
         labels: Object.keys(statusData),
@@ -134,15 +84,42 @@ function Dashboard() {
         }],
     });
 
-
     
     return (
-        <div className='main-outer-div'>
-            <div className='w-[500px]'>
-                <BarChart chartData={barData} />
+        <div className='w-7/8 bg-gray-50 h-3/4 mt-4 mx-8 rounded-2xl px-8 shadow-[rgba(0,_0,_0,_0.3)_0px_30px_90px] grid grid-cols-3 gap-4'>
+            <div className='h-2/3 col-span-1 '>
                 <PieChart data={barData} />
-                <NumberTile title="Average Task Completion Time" value={`${averageCompletionTime.hours} Hours ${averageCompletionTime.minutes} Mins`} /> 
             </div>
+            <div className='h-1/4 grid grid-cols-2'>
+                <div className='col-span-2 grid grid-cols-2 gap-4 p-4 bg-red-100'>
+                    <div className='col-span-1 p-2 bg-jade-200/70 rounded-xl flex flex-col'>
+                        <div className='h-1/2 flex flex-row justify-between'>
+                            <p className='font-semibold text-lg'>Average Completion Time</p>
+                            <div className='pt-1'>
+                                <svg className="h-6 w-6 text-blue-marguerite-400"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="12" y1="16" x2="12" y2="12" />  <line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                            </div>
+                        </div>
+                        <div className='flex flex-col h-1/2 justify-center'>
+                            <p className='font-bold text-4xl'>{`${averageCompletionTime.days}d ${averageCompletionTime.hours}h ${averageCompletionTime.mins}m`}</p>
+                        </div>
+                    </div>
+                    <div className='col-span-1 p-2 rounded-xl bg-blue-100'>
+                        Something
+                    </div>
+                </div>
+            </div>
+
+            {/* <div className='w-full flex flex-row'>
+                <div className="barChart">
+                    <BarChart chartData={barData} />
+                </div>
+                <div className="pieChart">
+                    <PieChart data={barData} />
+                </div>
+                <div className="tile">
+                    <NumberTile title="Average Task Completion Time" value={`${averageCompletionTime.hours} Hours ${averageCompletionTime.minutes} Mins`} /> 
+                </div>
+            </div> */}
         </div>
     );
 }
