@@ -24,10 +24,10 @@ async function updateTodos() {
   try {
     await Todo.updateMany(
       {
-        status: "Completed",
+        status: "In Progress",
       },
       [
-        { $set: { completedAt: currDate } }, // Add status with default value and set project to null
+        { $set: { inProgressAt: currDate } }, // Add status with default value and set project to null
       ]
     );
 
