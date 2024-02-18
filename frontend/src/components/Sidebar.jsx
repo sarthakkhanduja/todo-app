@@ -1,8 +1,10 @@
 import { useState } from "react";
 import plus from "../assets/plusSign.svg";
+import cross from "../assets/cross.svg";
 
 export function Sidebar(props) {
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showCross, setShowCross] = useState(false);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -55,13 +57,19 @@ export function Sidebar(props) {
                                 return(
                                     <li key={index}>
                                         <div
-                                            className={`flex items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${props.currentProject == element ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
+                                            className={`flex flex-row justify-between items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${props.currentProject === element ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
                                             onClick={() => {
                                                 props.setCurrentProject(element);
                                                 props.setToggleState(true);
+                                                setShowCross(true);
                                             }}
-                                            >
+                                        >
                                             {element.title}
+                                            {props.currentProject === element && (  // Conditionally render the cross icon
+                                                <div className={`rounded-full ${showCross ? 'visible' : 'hidden' } size-6 flex justify-center items-center hover:bg-red-100`}>
+                                                    <img className="size-4" src={cross} alt="deleteProject" />
+                                                </div>
+                                            )}
                                         </div>
                                     </li>
                                 )
