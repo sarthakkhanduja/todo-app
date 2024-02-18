@@ -15,16 +15,14 @@ export function ProjectHome(props) {
     const [inProgressTodo, setInProgressTodo] = useState([]);
     const [completedTodo, setCompletedTodo] = useState([]);
     const [todosLoading, setTodosLoading] = useState(false);
-    const [toggleState, setToggleState] = useState(true);
+    
 
 
     const toggleToDoModal = useCallback(() => {
         setToDoModal(!toDoModal);
     }, [toDoModal]);
 
-    const toggleComponent = useCallback(() => {
-        setToggleState(!toggleState);
-    }, [toggleState]);
+    
 
     const fetchTodo = useCallback(async () => {    
         const safeToken = localStorage.getItem('token');
@@ -74,7 +72,7 @@ export function ProjectHome(props) {
 
     useEffect(() => {
         fetchTodo();
-    }, [props.currentProject, toDoModal]);
+    }, [props.currentProject, toDoModal, props.toggleState]);
 
     useEffect(() => {
         const ytsTodos = todos.filter((todo) => {
@@ -93,7 +91,7 @@ export function ProjectHome(props) {
         setYetToStartTodo(ytsTodos);
         setInProgressTodo(ipTodos);
         setCompletedTodo(cTodos);
-    }, [todos, props.currentProject]);
+    }, [todos, props.currentProject, props.toggleState]);
     
     const columnMapping = {
         "yetToStart": "Yet to Start",
@@ -217,18 +215,18 @@ export function ProjectHome(props) {
                 <p className="text-6xl font-bold">{props.currentProject.title}</p>
                 
                 <div className="inline-flex items-center p-2 rounded-lg cursor-pointer dark:text-gray-800" onClick={() => {
-                    toggleComponent()
+                    props.toggleComponent()
                     }}>
                     <span
                         className={`px-4 py-2 rounded-l-lg ${
-                            toggleState ? 'bg-blue-marguerite-300 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-300'
+                            props.toggleState ? 'bg-blue-marguerite-300 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-300'
                         } transition-colors duration-300`}
                     >
                         Tasks
                     </span>
                     <span
                         className={`px-4 py-2 rounded-r-lg ${
-                            toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-300' : 'bg-blue-marguerite-300 peer-checked:bg-gray-300'
+                            props.toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-300' : 'bg-blue-marguerite-300 peer-checked:bg-gray-300'
                         } transition-colors duration-300`}
                     >
                         Dashboard
@@ -244,7 +242,7 @@ export function ProjectHome(props) {
                     <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-85 group-hover:opacity-100 transition duration-1000 text-center group-hover:duration-200 text-white" style={{ width: `${calculateProgress()}%` }}>{`${calculateProgress()}%`}</div>
                 </div>
             </div>
-            {toggleState ? <div className="h-[900px]">            
+            {props.toggleState ? <div className="h-[900px]">            
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="px-16 mt-2 grid grid-cols-3 py-3 gap-4 h-5/6">
                     <div className="col-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">

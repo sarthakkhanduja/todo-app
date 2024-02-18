@@ -16,7 +16,7 @@ function Dashboard(props) {
         let totalTimeInMilliseconds = 0;
     
         projectData.forEach(todo => {
-            if ((todo.status === 'Completed' && todo.completedAt) && (todo.completedAt !== todo.inProgressAt)) {
+            if ((todo.status === 'Completed' && todo.completedAt) && (todo.completedAt !== todo.inProgressAt) && todo.inProgressAt) {
                 const inProgressAt = new Date(todo.inProgressAt);
                 const completedAt = new Date(todo.completedAt);
                 const timeDifference = completedAt - inProgressAt; // Difference in milliseconds
@@ -48,11 +48,14 @@ function Dashboard(props) {
         const currentTime = Date.now();
     
         obj.forEach((todo) => {
-            let inProgressAtTime = new Date(todo.inProgressAt).getTime();
-            let timeDifference = currentTime - inProgressAtTime;
-    
-            totalTime += timeDifference;
-            totalInProgressAt++;
+            if ((todo.status === 'In Progress' && todo.inProgressAt)) {
+                let inProgressAtTime = new Date(todo.inProgressAt).getTime();
+                let timeDifference = currentTime - inProgressAtTime;
+        
+                totalTime += timeDifference;
+                totalInProgressAt++;
+            }
+            
         });
     
         if (totalInProgressAt === 0) {

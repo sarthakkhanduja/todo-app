@@ -58,6 +58,7 @@ export function Sidebar(props) {
                                             className={`flex items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${props.currentProject == element ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
                                             onClick={() => {
                                                 props.setCurrentProject(element);
+                                                props.setToggleState(true);
                                             }}
                                             >
                                             {element.title}

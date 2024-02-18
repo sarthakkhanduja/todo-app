@@ -5,9 +5,6 @@ import { Sidebar } from "./Sidebar";
 import bgImg from "../assets/ooorganize.svg";
 import ProjectModal from "./ProjectModal";
 import { useNavigate } from 'react-router-dom';
-import { experimental_useOptimistic as useOptimistic } from 'react';
-
-
 
 export function UserHome() {
     const [name, setName] = useState("User");
@@ -20,7 +17,13 @@ export function UserHome() {
     const [currentProject, setCurrentProject] = useState(null); // This is for the "Current" project selected and being worked upon
 
     const [updated, setUpdated] = useState(false);
+
+    const [toggleState, setToggleState] = useState(true);
     
+    const toggleComponent = useCallback(() => {
+        setToggleState(!toggleState);
+    }, [toggleState]);
+
     const navigate = useNavigate();
 
     const toggleModal = () => {
@@ -112,7 +115,15 @@ export function UserHome() {
         <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
-                    <Sidebar projectArray={projectArray} toggle={toggleModal} currentProject={currentProject} setCurrentProject={setCurrentProject} signOut={signOut} />
+                    <Sidebar projectArray={projectArray} 
+                            toggle={toggleModal}
+                            currentProject={currentProject}
+                            setCurrentProject={setCurrentProject}
+                            signOut={signOut}
+                            toggleState={toggleState}
+                            setToggleState={setToggleState}
+                            toggleComponent={toggleComponent}
+                        />
                 </div>
                 <div className="col-span-5 relative z-10">
                 {loading ? (
@@ -157,6 +168,8 @@ export function UserHome() {
                                                     projectProgress={`${currentProject.progress}%`} 
                                                     updated={updated}
                                                     setUpdated={setUpdated}
+                                                    toggleState={toggleState}
+                                                    toggleComponent={toggleComponent}
                                                     /> : (
                                     <div>
                                         <div className="w-full px-16 py-8 text-6xl font-bold mb-16">
