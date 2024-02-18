@@ -88,7 +88,7 @@ export function SignIn() {
                     setLabel("User does not exist");
                 } else if(response.status == 200) {
                     // Store the token in localStorage
-                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('token', `Bearer ${response.data.token}`);
 
                     // Show success
                     setShowSuccessAlert(true);

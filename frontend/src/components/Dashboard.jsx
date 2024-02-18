@@ -115,7 +115,7 @@ function Dashboard(props) {
         setAverageInProgressTime(avgInProgTime);
 
         const aging = getAgingTodos(props.todos);
-        console.log("Aging: " + JSON.stringify(aging))
+        // console.log("Aging: " + JSON.stringify(aging))
         setAgingTodos(aging);
     }, []);
       

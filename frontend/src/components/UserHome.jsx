@@ -32,6 +32,7 @@ export function UserHome() {
 
     const fetchName = useCallback(async () => {
         const safeToken = localStorage.getItem('token');
+        // console.log(safeToken);
         if(safeToken) {
             const response = await axios.get('http://localhost:3001/name', {
                 headers: {
@@ -170,6 +171,7 @@ export function UserHome() {
                                                     setUpdated={setUpdated}
                                                     toggleState={toggleState}
                                                     toggleComponent={toggleComponent}
+                                                    fetchProjects={fetchProjects}
                                                     /> : (
                                     <div>
                                         <div className="w-full px-16 py-8 text-6xl font-bold mb-16">

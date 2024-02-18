@@ -255,7 +255,7 @@ export function ProjectHome(props) {
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {yetToStartTodo.map((todo, index) => (
-                                                                        todo.status == "Yet to Start" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                        todo.status == "Yet to Start" ? <Todo key={todo._id} fetchTodo={fetchTodo} setTodosLoading={setTodosLoading} currentProject={props.currentProject} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                                                     ))}
                                                                     {provided.placeholder}
                                                                 </div>
@@ -273,7 +273,7 @@ export function ProjectHome(props) {
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {inProgressTodo.map((todo, index) => (
-                                                                        todo.status == "In Progress" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                        todo.status == "In Progress" ? <Todo key={todo._id} fetchTodo={fetchTodo} setTodosLoading={setTodosLoading} currentProject={props.currentProject} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                                                     ))}
                                                                     {provided.placeholder}
                                                                 </div>
@@ -291,7 +291,7 @@ export function ProjectHome(props) {
                                                             {(provided) => (
                                                                 <div className="flex flex-col p-4 justify-center items-center w-full" ref={provided.innerRef} {...provided.droppableProps}>
                                                                     {completedTodo.map((todo, index) => (
-                                                                        todo.status == "Completed" ? <Todo key={todo._id} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
+                                                                        todo.status == "Completed" ? <Todo key={todo._id} fetchTodo={fetchTodo} setTodosLoading={setTodosLoading} currentProject={props.currentProject} id={todo._id} title={todo.title} description={todo.description} index={index} /> : ""
                                                                     ))}
                                                                     {provided.placeholder}
                                                                 </div>
