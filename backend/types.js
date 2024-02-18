@@ -41,6 +41,10 @@ const projectSchema = z.object({
   title: z.string().min(3),
 });
 
+const deleteSchema = z.object({
+  id: z.string(),
+});
+
 module.exports = {
   todoSchema: todoSchema,
   todoUpdateSchema: todoUpdateSchema,
@@ -48,4 +52,5 @@ module.exports = {
   signInSchema: signInSchema,
   projectSchema: projectSchema,
   getTodoSchema: getTodoSchema,
+  deleteSchema: deleteSchema,
 };

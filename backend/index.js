@@ -8,6 +8,7 @@ const {
   signInSchema,
   projectSchema,
   getTodoSchema,
+  deleteSchema,
 } = require("./types");
 const { Todo, User, Project } = require("./db");
 const jwt = require("jsonwebtoken");
@@ -422,6 +423,123 @@ app.post("/signin", async (req, res) => {
   }
 });
 
+// Route to DELETE a Project
+app.delete("/project", verifyToken, async (req, res) => {
+  const body = deleteSchema.safeParse(req.body);
+  const currentUser = await User.findOne({ email: req.user.email });
+
+  if (body.success) {
+    // Deleting all todo's with the given project ID
+    const deleteTodo = await Todo.deleteMany({
+      project: body.data.id,
+    });
+
+    console.log("Delete Todo: ");
+    console.log(deleteTodo);
+
+    // Deleting the project with the given ID
+    const deleteProject = await Project.deleteOne({
+      _id: body.data.id,
+    });
+
+    console.log("Delete Project: ");
+    console.log(deleteProject);
+
+    // Deleting the project from the user's projects array
+    // Splicing the project from the user's projects array
+    const updatedProjects = currentUser.projects.filter(
+      (projectId) => projectId.toString() !== body.data.id
+    );
+
+    const updateUser = await User.updateOne(
+      {
+        _id: currentUser._id,
+      },
+      {
+        projects: updatedProjects,
+      }
+    );
+
+    console.log("Update User: ");
+    console.log(updateUser);
+
+    res.status(200).json({
+      message: "Project Deleted",
+    });
+  } else {
+    res.status(454).json({
+      message: "Inavlid Project ID",
+    });
+  }
+});
+
+// Route to DELETE a todo from a given project
+app.delete("/todo", verifyToken, async (req, res) => {
+  const body = deleteSchema.safeParse(req.body);
+  const currentUser = await User.findOne({ email: req.user.email });
+
+  // console.log("Current User: ");
+  // console.log(currentUser);
+
+  if (body.success) {
+    const currentTodo = await Todo.findOne({
+      _id: body.data.id,
+    });
+
+    if (currentTodo) {
+      console.log("---------In here");
+      const currentProjectId = currentTodo.project;
+      const currentProject = await Project.findOne({
+        user: currentUser._id,
+        _id: currentProjectId,
+      });
+
+      console.log("----------Current Project ID: ");
+      console.log(currentProjectId);
+
+      console.log("-----------Current Project: ");
+      console.log(currentProject);
+
+      // Delete the Todo with the given ID
+      const deleteTodo = await Todo.deleteOne({
+        _id: body.data.id,
+        user: currentUser._id,
+      });
+
+      console.log("--------Delete Todo");
+      console.log(deleteTodo);
+
+      // Splicing the todos array of the project
+      const updatedTodosArray = currentProject.todos.filter(
+        (todoId) => todoId.toString() !== body.data.id
+      );
+
+      console.log(updatedTodosArray);
+
+      const updateProject = await Project.updateOne(
+        {
+          _id: currentProject._id,
+        },
+        {
+          todos: updatedTodosArray,
+        }
+      );
+
+      res.status(200).json({
+        message: "Todo deleted",
+      });
+    } else {
+      res.status(440).json({
+        message: "Todo with the given ID doesn't exist",
+      });
+      return;
+    }
+  } else {
+    res.status(460).json({
+      message: "Invalid Todo ID",
+    });
+  }
+});
 // Server is listening on the PORT
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
