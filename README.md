@@ -5,6 +5,15 @@ Your destination for interactive task management with analysis capabilities.
 
 <br>
 
+The features of the project are - 
+
+- The application can host multiple users.
+- Each user can create multiple projects _(Think of these as categories of the tasks you would want to maintain)_
+- Every Project can have multiple to-do's or tasks.
+- Every project also has a dedicated dashboard for you to track multiple metrics of your project's progress.
+- Every Project and To-do has the CRUD capabilities.
+<br>
+
 ## Table of Contents
 1. [Installation](#installation)
 2. [Usage](#usage)
