@@ -1,12 +1,11 @@
-// require("dotenv").config();
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 
 // console.log(process.env.MONGO_URI);
 // console.log(typeof process.env.MONGO_URI);
 
-mongoose.connect(
-  "mongodb+srv://sarthakkhanduja:Sarthak%40123@test-cluster-sarthak.fxb1y3m.mongodb.net/todoApp"
-);
+mongoose.connect(process.env.MONGO_URI);
 
 const ProjectSchema = new mongoose.Schema({
   title: String,

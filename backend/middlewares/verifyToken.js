@@ -9,7 +9,9 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
-  jwt.verify(token, JWT_PASSWORD, (err, decoded) => {
+  const actualToken = token.split(" ")[1];
+  // console.log(actualToken);
+  jwt.verify(actualToken, JWT_PASSWORD, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden: Invalid token" });
     }
