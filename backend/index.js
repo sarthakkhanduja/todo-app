@@ -21,7 +21,13 @@ const app = express();
 
 // Using Express.json() middleware to parse the Request bodies
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://deploy-mern-1whq.vercel.aoo", "http://127.0.0.1:5173"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 // app.use(verifyToken);
 
 // Defining the routes
