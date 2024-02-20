@@ -15,11 +15,21 @@ The features of the project are -
 <br>
 
 ## Table of Contents
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Tech Stack](#tech-stack)
-4. [Invitation to Contribute](#invitation-to-contribute)
+1. [Invitation to Contribute](#invitation-to-contribute)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Tech Stack](#tech-stack)
 5. [Future Work](#future-work)
+
+<br>
+
+# [Invitation to Contribute](#invitation-to-contribute)
+This repository is open-sourced to allow developers to practice their skills and get a know-how of how open-source contributions work.
+> I hereby invite developers to pick up a future work prospect from the section below and controbute to the project.
+> This would not only hone your open-source contributions and skills, but also allow this app to grow
+
+<br>
+
 
 <br>
 
@@ -92,13 +102,6 @@ This project uses a very beginner friendly blend of technologies -
 3. MongoDB
 4. Express.js
 5. Tailwind CSS
-
-<br>
-
-# [Invitation to Contribute](#invitation-to-contribute)
-This repository is open-sourced to allow developers to practice their skills and get a know-how of how open-source contributions work.
-> I hereby invite developers to pick up a future work prospect from the section below and controbute to the project.
-> This would not only hone your open-source contributions and skills, but also allow this app to grow
 
 <br>
 
