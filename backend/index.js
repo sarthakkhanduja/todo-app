@@ -169,32 +169,6 @@ app.post("/todo", verifyToken, async (req, res) => {
 });
 
 // Route to READ all Todo's
-// app.get("/todos", verifyToken, async (req, res) => {
-//   try {
-//     const body = getTodoSchema.safeParse(req.body);
-//     const currentUser = await User.findOne({ email: req.user.email });
-
-//     const project = await Project.findOne({
-//       _id: body.data.projectId,
-//       user: currentUser._id,
-//     });
-
-//     if (!project) {
-//       return res.status(404).json({ message: "Project not found" });
-//     }
-
-//     const todoIds = project.todos;
-
-//     const todos = await Todo.find({ _id: { $in: todoIds } });
-
-//     res.status(200).json({ todos });
-//   } catch (error) {
-//     console.error("Error fetching todos:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-
-// Route to READ all Todo's
 app.get("/todos", verifyToken, async (req, res) => {
   try {
     const projectId = req.query.projectId; // Extract projectId from query parameters
@@ -546,6 +520,12 @@ app.delete("/todo", verifyToken, async (req, res) => {
       message: "Invalid Todo ID",
     });
   }
+});
+
+app.all("*", (req, res) => {
+  res.status(200).json({
+    message: "This might not be the page you're looking for",
+  });
 });
 // Server is listening on the PORT
 app.listen(PORT, () => {
