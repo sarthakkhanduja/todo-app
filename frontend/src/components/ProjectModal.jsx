@@ -14,7 +14,7 @@ function ProjectModal(props) {
     
     return (
       props.modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed font-display inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black bg-opacity-80" onClick={props.toggle}></div>
           <div className="relative z-50 p-4 w-full max-w-md">
             <div className="bg-white rounded-lg shadow">

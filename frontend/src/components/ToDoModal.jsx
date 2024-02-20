@@ -2,6 +2,7 @@ import React from 'react'
 import { titleSchema, descriptionSchema } from '../validations/toDoValidation';
 import { useState } from 'react';
 import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 
 function ToDoModal(props) {
@@ -12,10 +13,18 @@ function ToDoModal(props) {
         // console.log("Validating Title: " + JSON.stringify(result));
         setError(result.error && value.length !== 0 ? "Title should be of at least 3 characters" : null);
     }, []);
+
+    useEffect(() => {
+      if (props.toDoModal) {
+        props.setToDoTitle("");
+        props.setToDoDescription("");
+      }
+    }, [props.toDoModal]);
+    
     
     return (
       props.toDoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed font-display inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black bg-opacity-80" onClick={props.toggle}></div>
           <div className="relative z-50 p-4 w-full max-w-md">
             <div className="bg-white rounded-lg shadow">

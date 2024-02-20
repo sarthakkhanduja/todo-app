@@ -1,20 +1,50 @@
 import { useState } from "react";
 import plus from "../assets/plusSign.svg";
 import cross from "../assets/cross.svg";
+import { useCallback } from "react";
+import axios from 'axios';
 
 export function Sidebar(props) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCross, setShowCross] = useState(false);
+    const [selectedProjectIndex, setSelectedProjectIndex] = useState(null); // State to track selected project index
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
-    
+
+    const deleteProject = useCallback(async () => {    
+        const safeToken = localStorage.getItem('token');
+        if (safeToken) {
+            try {
+                props.setLoading(true);
+                const response = await axios.delete('http://localhost:3001/project', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': safeToken,
+                    },
+                    data: { id: props.currentProject._id },
+                });
+
+                console.log(response.data);
+                await props.fetchProjects();
+                
+                // Check if the deleted project is the current project
+                if (props.currentProject && props.currentProject._id === response.data.deletedProjectId) {
+                    // Update currentProject to the first project in projectArray
+                    props.setCurrentProject(props.projectArray[0]);
+                    setSelectedProjectIndex(0); // Update selected project index
+                }
+            } catch (e) {
+                console.error("Error fetching Projects:", e);
+            }
+        }
+    }, [props.currentProject, props.projectArray]);
 
     return (
         <aside
             id="sidebar-multi-level-sidebar"
-            className="top-0 left-0 z-40 w-full h-screen transition-transform -translate-x-full sm:translate-x-0"
+            className="top-0 left-0 z-40 font-display w-full h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar">
             <div className="h-full px-3 py-4 overflow-y-auto bg-gray-200 flex flex-col justify-between">
                 <div>
@@ -57,16 +87,19 @@ export function Sidebar(props) {
                                 return(
                                     <li key={index}>
                                         <div
-                                            className={`flex flex-row justify-between items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${props.currentProject === element ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
+                                            className={`flex flex-row justify-between items-center cursor-pointer w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group ${selectedProjectIndex === index ? "bg-blue-marguerite-200"  : "hover:bg-blue-marguerite-100" }`}
                                             onClick={() => {
                                                 props.setCurrentProject(element);
+                                                setSelectedProjectIndex(index); // Update selected project index
                                                 props.setToggleState(true);
                                                 setShowCross(true);
                                             }}
                                         >
                                             {element.title}
-                                            {props.currentProject === element && (  // Conditionally render the cross icon
-                                                <div className={`rounded-full ${showCross ? 'visible' : 'hidden' } size-6 flex justify-center items-center hover:bg-red-100`}>
+                                            {selectedProjectIndex === index && (  // Conditionally render the cross icon
+                                                <div className={`rounded-full ${showCross ? 'visible' : 'hidden' } size-6 flex justify-center items-center hover:bg-red-100`} onClick={() => {
+                                                    deleteProject();
+                                                }}>
                                                     <img className="size-4" src={cross} alt="deleteProject" />
                                                 </div>
                                             )}

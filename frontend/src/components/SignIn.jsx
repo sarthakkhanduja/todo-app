@@ -107,7 +107,7 @@ export function SignIn() {
 
     return(
         // <div className="min-h-screen w-full bg-gradient-to-bl from-transparent via-blue-marguerite-300 flex justify-center items-center">
-        <div className="min-h-screen w-full flex flex-col justify-center items-center">
+        <div className="min-h-screen font-display w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
             )}
@@ -139,9 +139,9 @@ export function SignIn() {
 
 function Field(props) {
     return(
-        <div className="py-2 px-5">
+        <div className="py-2 px-5 font-display">
             <p className='text-xs pb-2'>{props.label}</p>
-            <input className='px-2 py-2 border-solid border-2 text-xs border-gray-500/50 rounded-lg w-full' type={props.givenType} onChange={(e) => {
+            <input className='px-2 py-2 border-solid font-display border-2 text-xs border-gray-500/50 rounded-lg w-full' type={props.givenType} onChange={(e) => {
                 props.setFn(e.target.value);
             }} onBlur={() => {
                 props.validateFn(props.val);
@@ -155,7 +155,7 @@ function Field(props) {
 
 function Button(props) {
     return(
-        <div className='flex justify-center py-8 px-5'>
+        <div className='flex font-display justify-center py-8 px-5'>
             <button className='w-full text-white bg-jade-500 text-xs rounded-lg drop-shadow-xl hover:bg-jade-700 py-2' onClick={async () => {
                 let res = await props.backendCall(props.email, props.pwd);
                 console.log(res.status);
@@ -166,7 +166,7 @@ function Button(props) {
 
 function RememberMe() {
     return(
-        <div className='py-4 px-5 flex flex-row items-center'>
+        <div className='py-4 font-display px-5 flex flex-row items-center'>
             <input id='rememberMeCheckbox' className='size-3 rounded-lg' type='checkbox' />
             <label htmlFor='rememberMeCheckbox' className='text-xs pl-2 cursor-pointer'>
                 Remember Me

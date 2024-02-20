@@ -55,7 +55,8 @@ export default {
       display: ["Poppins", "sans-serif"],
     },
     backgroundPosition: {
-      "bottom-4": "center bottom 17px",
+      "bottom-md": "center bottom 17px",
+      "bottom-sm": "center bottom 8px",
     },
   },
   plugins: [],

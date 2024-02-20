@@ -226,7 +226,7 @@ function Dashboard(props) {
     
           
     return (
-        <div className='w-7/8 bg-gray-50 h-2/3 mt-4 mx-8 rounded-2xl px-8 shadow-[rgba(0,_0,_0,_0.3)_0px_30px_90px] grid grid-cols-3 gap-4'>
+        <div className='w-7/8 bg-gray-50 h-2/3 mt-4 mx-8 rounded-2xl px-8 shadow-[rgba(0,_0,_0,_0.3)_0px_30px_90px] grid grid-cols-3 gap-4 font-display'>
             <div className='h-full col-span-1 py-8'>
                 <div className='p-2 rounded-xl flex flex-col'>
                     <div className='h-2/5 p-3 flex flex-row justify-between'>

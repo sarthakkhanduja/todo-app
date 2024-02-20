@@ -113,7 +113,7 @@ export function UserHome() {
     
     
     return(
-        <div className="w-full min-h-screen flex flex-col overflow-y-hidden">
+        <div className="w-full min-h-screen font-display flex flex-col overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen">
                 <div className="col-span-1">
                     <Sidebar projectArray={projectArray} 
@@ -124,6 +124,9 @@ export function UserHome() {
                             toggleState={toggleState}
                             setToggleState={setToggleState}
                             toggleComponent={toggleComponent}
+                            fetchProjects={fetchProjects}
+                            setLoading={setLoading}
+                            loading={loading}
                         />
                 </div>
                 <div className="col-span-5 relative z-10">
@@ -203,7 +206,7 @@ function Waves() {
 
 function Button(props) {
     return (
-        <button className="cursor-pointer relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50" 
+        <button className="cursor-pointer font-display relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50" 
         onClick={props.toggle}
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>

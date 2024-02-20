@@ -200,7 +200,7 @@ export function ProjectHome(props) {
     }
 
     return (
-        <div className="h-screen opacity-90">
+        <div className="h-screen opacity-90 font-display">
             <ToDoModal 
                 setToDoTitle={setToDoTitle} 
                 toDoTitle={toDoTitle} 
@@ -310,7 +310,7 @@ export function ProjectHome(props) {
 function Button(props) {
     return (
         <button 
-            className="cursor-pointer relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+            className="cursor-pointer font-display relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
             onClick={props.toggle}
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>

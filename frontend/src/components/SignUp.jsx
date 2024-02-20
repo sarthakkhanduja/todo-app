@@ -151,7 +151,7 @@ export default function SignUp() {
     
 
     return(
-        <div className="min-h-screen w-full flex flex-col justify-center items-center">
+        <div className="min-h-screen font-display w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
             )}
@@ -162,7 +162,7 @@ export default function SignUp() {
                 <ErrorAlert label={label} />
             )}
             <BgImage />
-            <div className="xl:grid xl:grid-cols-2 flex flex-col bg-white w-4/5 lg:w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] z-10">
+            <div className="xl:grid xl:grid-cols-2 flex flex-col bg-white font-display w-4/5 lg:w-2/3 h-4/5 rounded-2xl shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] z-10">
                 <div className="px-5 md:px-9 py-5 md:py-9">
                     <div className="flex flex-col md:flex-row px-5">
                         <p className='text-xs xl:pb-5 xl:pt-4 xl:pr-1'>Already have an account?</p>
@@ -189,7 +189,7 @@ export default function SignUp() {
 
 function Field(props) {
     return(
-        <div className="py-2 px-5">
+        <div className="py-2 font-display px-5">
             <p className='text-xs pb-2'>{props.label}</p>
             <input className='px-2 py-2 border-solid border-2 text-xs border-gray-500/50 rounded-lg w-full' type={props.givenType} onChange={(e) => {
                 props.setFn(e.target.value);
@@ -205,7 +205,7 @@ function Field(props) {
 
 function Button(props) {
     return(
-        <div className='flex justify-center py-8 px-5'>
+        <div className='flex justify-center font-display py-8 px-5'>
             <button className='w-full text-white bg-blue-marguerite-500 text-xs rounded-lg drop-shadow-xl hover:bg-blue-marguerite-700 py-2' onClick={async () => {
                 if(!props.tnc) {
                     // alert('tnc');
@@ -221,7 +221,7 @@ function Button(props) {
 
 function TnC(props) {
     return (
-        <div className='py-4 px-5 flex flex-row items-center'>
+        <div className='py-4 px-5 flex flex-row font-display items-center'>
             <input id='tncCheckbox' className='size-3 rounded-lg' type='checkbox' onChange={(e) => {
                props.setFn(e.target.checked);
             }} />

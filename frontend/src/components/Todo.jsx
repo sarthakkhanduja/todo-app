@@ -35,7 +35,7 @@ function Todo(props) {
   return (
     <Draggable draggableId={id} index={props.index}>
       {(provided) => (
-        <div className='m-2 p-6 flex flex-row justify-between bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-4/5' 
+        <div className='m-2 p-6 flex font-display flex-row justify-between bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-4/5' 
           {...provided.draggableProps} 
           {...provided.dragHandleProps} 
           ref={provided.innerRef}

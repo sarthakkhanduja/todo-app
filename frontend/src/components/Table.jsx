@@ -36,7 +36,7 @@ function Table({ agingTodos }) {
       }, []);
 
     return (
-        <div className='shadow-[rgba(0,_0,_0,_0.3)_0px_10px_10px]'>
+        <div className='shadow-[rgba(0,_0,_0,_0.3)_0px_10px_10px] font-display'>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-900 ">
                     <thead className="text-xs text-gray-700 uppercase bg-blue-marguerite-100">
