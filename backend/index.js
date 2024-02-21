@@ -527,6 +527,7 @@ app.all("*", (req, res) => {
     message: "This might not be the page you're looking for",
   });
 });
+
 // Server is listening on the PORT
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
-const JWT_PASSWORD = "JwtPassword";
+require("dotenv").config();
 
 // Middleware to verify the token
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
+  const jwt_password = process.env.JWT_PASSWORD;
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
@@ -11,7 +12,7 @@ const verifyToken = (req, res, next) => {
 
   const actualToken = token.split(" ")[1];
   // console.log(actualToken);
-  jwt.verify(actualToken, JWT_PASSWORD, (err, decoded) => {
+  jwt.verify(actualToken, jwt_password, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden: Invalid token" });
     }
