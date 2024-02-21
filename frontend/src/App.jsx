@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { TermsAndConditions } from './components/TermsAndConditions';
@@ -9,7 +9,7 @@ import { UserHome } from './components/UserHome';
 function App() {
   
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
@@ -17,7 +17,7 @@ function App() {
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/userhome" element={<UserHome />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
