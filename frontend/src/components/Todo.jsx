@@ -3,6 +3,7 @@ import { Draggable } from '@hello-pangea/dnd';
 import cross from '../assets/cross.svg';
 import { useCallback } from 'react';
 import axios from 'axios';
+import backendUrl from "../global";
 
 function Todo(props) {
 
@@ -13,7 +14,7 @@ function Todo(props) {
     if (safeToken) {
         try {
             props.setTodosLoading(true);
-            const response = await axios.delete('http://localhost:3001/todo', {
+            const response = await axios.delete(`${backendUrl}/todo`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': safeToken,

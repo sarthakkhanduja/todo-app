@@ -7,6 +7,7 @@ import { InfoAlert } from './alerts/InfoAlert';
 import { SuccessAlert } from './alerts/SuccessAlert';
 import { ErrorAlert } from './alerts/ErrorAlert';
 import bgImg from "../assets/checkered.svg";
+import backendUrl from "../global";
 
 export function SignIn() {
     const [email, setEmail] = useState("");
@@ -71,7 +72,7 @@ export function SignIn() {
 
         if(emailResult.success && pwdResult.success) {
             try{
-                const response = await axios.post('http://localhost:3001/signin', {
+                const response = await axios.post(`${backendUrl}/signin`, {
                     email: email,
                     password: password
                 }, {

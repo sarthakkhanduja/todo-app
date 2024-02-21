@@ -3,6 +3,7 @@ import plus from "../assets/plusSign.svg";
 import cross from "../assets/cross.svg";
 import { useCallback } from "react";
 import axios from 'axios';
+import backendUrl from "../global";
 
 export function Sidebar(props) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -18,7 +19,7 @@ export function Sidebar(props) {
         if (safeToken) {
             try {
                 props.setLoading(true);
-                const response = await axios.delete('http://localhost:3001/project', {
+                const response = await axios.delete(`${backendUrl}/project`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': safeToken,

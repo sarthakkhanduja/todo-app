@@ -7,6 +7,7 @@ import { InfoAlert } from './alerts/InfoAlert';
 import { SuccessAlert } from './alerts/SuccessAlert';
 import { ErrorAlert } from './alerts/ErrorAlert';
 import bgImg from "../assets/checkered.svg";
+import backendUrl from "../global";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -94,7 +95,7 @@ export default function SignUp() {
         
         if(nameResult.success && emailResult.success && pwdResult.success) {
             try {
-                const response = await axios.post("http://localhost:3001/signup", {
+                const response = await axios.post(`${backendUrl}/signup`, {
                 name: name,
                 email: email,
                 password: pwd

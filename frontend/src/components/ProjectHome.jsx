@@ -5,6 +5,7 @@ import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import ToDoModal from "./ToDoModal";
 import { useEffect } from "react";
 import Dashboard from "./Dashboard";
+import backendUrl from "../global";
 
 export function ProjectHome(props) {
     const [todos, setTodos] = useState([]);
@@ -16,8 +17,6 @@ export function ProjectHome(props) {
     const [completedTodo, setCompletedTodo] = useState([]);
     const [todosLoading, setTodosLoading] = useState(false);
     
-
-
     const toggleToDoModal = useCallback(() => {
         setToDoModal(!toDoModal);
     }, [toDoModal]);
@@ -30,7 +29,7 @@ export function ProjectHome(props) {
     
         try {
             setTodosLoading(true);
-            const response = await axios.get('http://localhost:3001/todos', {
+            const response = await axios.get(`${backendUrl}/todos`, {
                 params: {
                     projectId: props.currentProject._id,
                 },
@@ -51,7 +50,7 @@ export function ProjectHome(props) {
 
         try {
             let safeToken = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/todo', {
+            const response = await axios.post(`${backendUrl}/todo`, {
                 title: toDoTitle,
                 description: toDoDescription,
                 projectId: props.currentProject._id,
@@ -102,7 +101,7 @@ export function ProjectHome(props) {
     const updateTodoStatus = async (id, status) => {
         try {
             let safeToken = localStorage.getItem('token');
-            const response = await axios.put('http://localhost:3001/updateStatus', {
+            const response = await axios.put(`${backendUrl}/updateStatus`, {
                 id: id,
                 status: status
             }, {

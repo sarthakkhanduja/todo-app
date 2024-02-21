@@ -5,6 +5,7 @@ import { Sidebar } from "./Sidebar";
 import bgImg from "../assets/ooorganize.svg";
 import ProjectModal from "./ProjectModal";
 import { useNavigate } from 'react-router-dom';
+import backendUrl from "../global";
 
 export function UserHome() {
     const [name, setName] = useState("User");
@@ -34,7 +35,7 @@ export function UserHome() {
         const safeToken = localStorage.getItem('token');
         // console.log(safeToken);
         if(safeToken) {
-            const response = await axios.get('http://localhost:3001/name', {
+            const response = await axios.get(`${backendUrl}/name`, {
                 headers: {
                     "Authorization": `${safeToken}`,
                 }
@@ -54,7 +55,7 @@ export function UserHome() {
         try {
             const safeToken = localStorage.getItem('token');
             if(safeToken) {
-                const response = await axios.get('http://localhost:3001/projects', {
+                const response = await axios.get(`${backendUrl}/projects`, {
                     headers: {
                         "Authorization": `${safeToken}`,
                     }
@@ -82,7 +83,7 @@ export function UserHome() {
         console.log("Project Title: " + projectTitle);
         try {
             let safeToken = localStorage.getItem('token');
-            const response = await axios.post("http://localhost:3001/project", {
+            const response = await axios.post(`${backendUrl}/project`, {
                 title: projectTitle,
             }, 
             {
