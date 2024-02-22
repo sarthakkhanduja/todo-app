@@ -45,7 +45,8 @@ export function Sidebar(props) {
     return (
         <aside
             id="sidebar-multi-level-sidebar"
-            className="top-0 left-0 z-40 font-display w-full h-screen transition-transform -translate-x-full sm:translate-x-0"
+            // className="top-0 left-0 z-40 font-display w-full h-screen transition-transform -translate-x-full sm:translate-x-0"
+            className="top-0 left-0 z-40 font-display w-full h-screen"
             aria-label="Sidebar">
             <div className="h-full px-3 py-4 overflow-y-auto bg-gray-200 flex flex-col justify-between">
                 <div>
