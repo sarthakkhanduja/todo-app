@@ -210,41 +210,42 @@ export function ProjectHome(props) {
                 toggle={toggleToDoModal}
                 addTodo={addTodo}
             />
-            <div className="w-full px-16 py-8 flex justify-between items-center">
-                <p className="text-6xl font-bold">{props.currentProject.title}</p>
-                
-                <div className="inline-flex items-center p-2 rounded-lg cursor-pointer dark:text-gray-800" onClick={() => {
-                    props.toggleComponent()
-                    }}>
-                    <span
-                        className={`px-4 py-2 rounded-l-lg ${
-                            props.toggleState ? 'bg-blue-marguerite-300 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-300'
-                        } transition-colors duration-300`}
-                    >
-                        Tasks
-                    </span>
-                    <span
-                        className={`px-4 py-2 rounded-r-lg ${
-                            props.toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-300' : 'bg-blue-marguerite-300 peer-checked:bg-gray-300'
-                        } transition-colors duration-300`}
-                    >
-                        Dashboard
-                    </span>
+            <div className="w-full px-2 sm:px-16 py-8 flex flex-col sm:flex-row justify-between items-center">
+                <p className="text-4xl sm:text-6xl font-bold mb-4 sm:mb-0">{props.currentProject.title}</p>
+                <div className="flex justify-between">
+                    <div className="inline-flex sm:items-center p-2 rounded-lg cursor-pointer dark:text-gray-800" onClick={() => {
+                        props.toggleComponent()
+                        }}>
+                        <span
+                            className={`px-4 py-2 rounded-l-lg ${
+                                props.toggleState ? 'bg-blue-marguerite-300 peer-checked:bg-gray-300' : 'bg-gray-300 peer-checked:bg-blue-marguerite-300'
+                            } transition-colors duration-300`}
+                        >
+                            Tasks
+                        </span>
+                        <span
+                            className={`px-4 py-2 rounded-r-lg ${
+                                props.toggleState ? 'bg-gray-300 peer-checked:bg-blue-marguerite-300' : 'bg-blue-marguerite-300 peer-checked:bg-gray-300'
+                            } transition-colors duration-300`}
+                        >
+                            Dashboard
+                        </span>
 
-                </div>
+                    </div>
                 <Button label="Add To-do" toggle={toggleToDoModal} />
+                </div>
             </div>
 
-            <div className="px-16 flex flex-col">
+            <div className="px-4 sm:px-16 flex flex-col">
                 <p className="font-lg font-semibold mb-2">Progress: </p>
                 <div className="w-full bg-gray-200 rounded-full">
                     <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-85 group-hover:opacity-100 transition duration-1000 text-center group-hover:duration-200 text-white" style={{ width: `${calculateProgress()}%` }}>{`${calculateProgress()}%`}</div>
                 </div>
             </div>
-            {props.toggleState ? <div className="h-[900px]">            
+            {props.toggleState ? <div className="h-[810px] lg:h-[900px]">            
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="px-16 mt-2 grid grid-cols-3 py-3 gap-4 h-5/6">
-                    <div className="col-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
+                <div className="px-4 sm:px-16 mt-2 grid grid-cols-[repeat(3,minmax(320px,1fr))] gap-4 py-3 h-5/6 overflow-x-auto">
+                    <div className="cols-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Yet to Start
                         </div>
@@ -262,7 +263,7 @@ export function ProjectHome(props) {
                                                         </Droppable>}
                         
                     </div>
-                    <div className="col-span-1 bg-yellow-200 rounded-xl overflow-auto yellow-scrollbar">
+                    <div className="cols-span-1 bg-yellow-200 rounded-xl overflow-auto yellow-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             In Progress
                         </div>
@@ -280,7 +281,7 @@ export function ProjectHome(props) {
                                                         </Droppable>}
                         
                     </div>
-                    <div className="col-span-1 bg-green-200 rounded-xl overflow-auto green-scrollbar">
+                    <div className="cols-span-1 bg-green-200 rounded-xl overflow-auto green-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Completed
                         </div>
@@ -309,7 +310,7 @@ export function ProjectHome(props) {
 function Button(props) {
     return (
         <button 
-            className="cursor-pointer font-display relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+            className="cursor-pointer bg-blue-marguerite-100 sm:bg-transparent font-display relative inline-flex items-center pl-6 pr-6 sm:pr-12 sm:pl-10 py-3 overflow-hidden text-sm sm:text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
             onClick={props.toggle}
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
