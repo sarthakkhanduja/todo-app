@@ -16,7 +16,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("./middlewares/verifyToken");
 
 const PORT = 3001;
-const JWT_PASSWORD = "JwtPassword";
+const JWT_PASSWORD = process.env.JWT_PASSWORD;
 const app = express();
 
 // Using Express.json() middleware to parse the Request bodies
