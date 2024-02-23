@@ -111,6 +111,10 @@ This project uses a very beginner friendly blend of technologies -
 - >**Empty To-do's**  <br>  
    Currently, the user is allowed to create an empty to-do. There should be a validation function (already in the code) that should be triggered whenever an empty to-do is being made. (Empty descriptions are acceptable).
    <br>
+- >**Responsive Design Issue**  <br>  
+   In a mobile screen view (smaller than 'sm' breakpoint), the "Project Home" view looks pretty congested because the three columns are not resized properly. I'm unable to increase the width of the parent container of those columns.  <br>  
+  >Steps to replicate - Run the project > Login (Sign up if you haven't) > Create a Project > Click on the project made in the sidebar > Switch to mobile screen view.
+   <br>
   
 
 ## Features
