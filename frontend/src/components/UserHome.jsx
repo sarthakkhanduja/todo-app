@@ -189,10 +189,10 @@ export function UserHome() {
                         </div>
                         
                     ) : (
-                        <div>
+                        <div cclassName="h-screen relative">
                             <BgImage opacity="0.1" />
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject} />
-                            <div className="z-10">
+                            <div className="relative h-full">
                                 <Waves />
                                 {currentProject ? <ProjectHome 
                                                     currentProject={currentProject}
@@ -204,7 +204,7 @@ export function UserHome() {
                                                     toggleComponent={toggleComponent}
                                                     fetchProjects={fetchProjects}
                                                     /> : (
-                                    <div className="max-h-screen">
+                                    <div className="max-h-screen h-full">
                                         <div className="w-full px-8 sm:px-16 py-16 sm:py-8 text-5xl sm:text-6xl font-bold mb-16">
                                             Hi<span className="text-blue-marguerite-400">, </span> {name}
                                         </div>

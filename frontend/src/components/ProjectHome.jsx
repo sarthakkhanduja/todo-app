@@ -199,7 +199,7 @@ export function ProjectHome(props) {
     }
 
     return (
-        <div className="h-screen opacity-90 font-display">
+        <div className="h-screen opacity-90 font-display grid grid-rows-[max-content_max-content_1fr]">
             <ToDoModal 
                 setToDoTitle={setToDoTitle} 
                 toDoTitle={toDoTitle} 
@@ -242,9 +242,9 @@ export function ProjectHome(props) {
                     <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-85 group-hover:opacity-100 transition duration-1000 text-center group-hover:duration-200 text-white" style={{ width: `${calculateProgress()}%` }}>{`${calculateProgress()}%`}</div>
                 </div>
             </div>
-            {props.toggleState ? <div className="h-[810px] lg:h-[900px]">            
+            {props.toggleState ? <div className="h-full overflow-hidden">            
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="px-4 sm:px-16 mt-2 grid grid-cols-[repeat(3,minmax(320px,1fr))] gap-4 py-3 h-5/6 overflow-x-auto">
+                <div className="px-4 sm:px-16 mt-2 grid grid-cols-[repeat(3,minmax(320px,1fr))] gap-4 py-3 h-full overflow-x-auto">
                     <div className="cols-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
                         <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
                             Yet to Start
