@@ -199,7 +199,7 @@ export function ProjectHome(props) {
     }
 
     return (
-        <div className="h-screen opacity-90 font-display grid grid-rows-[max-content_max-content_1fr]">
+        <div className="h-full opacity-90 font-display grid grid-rows-[max-content_max-content_1fr]">
             <ToDoModal 
                 setToDoTitle={setToDoTitle} 
                 toDoTitle={toDoTitle} 

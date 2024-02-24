@@ -189,7 +189,7 @@ export function UserHome() {
                         </div>
                         
                     ) : (
-                        <div cclassName="h-screen relative">
+                        <div className="min-h-screen h-full relative">
                             <BgImage opacity="0.1" />
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject} />
                             <div className="relative h-full">

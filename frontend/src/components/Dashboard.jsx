@@ -528,8 +528,8 @@ function Dashboard(props) {
     
           
     return (
-        <div className='w-7/8 bg-gray-50 min-h-screen mt-4 mx-8 rounded-2xl px-8 shadow-[rgba(0,_0,_0,_0.3)_0px_30px_90px] font-display flex flex-col'>
-            <div className='h-full py-8'>
+        <div className='bg-gray-50 h-full mt-4 mx-8 rounded-2xl px-8 shadow-[rgba(0,_0,_0,_0.3)_0px_30px_90px] font-display flex flex-col sm:flex-row overflow-hidden'>
+            <div className='h-full py-8 sm:w-1/3'>
                 <div className='p-2 rounded-xl flex flex-col'>
                     <div className='h-2/5 p-3 flex flex-row justify-between'>
                         <p className='font-semibold text-lg'>Status Distribution</p>
@@ -542,7 +542,7 @@ function Dashboard(props) {
                     </div>
                 </div>
             </div>
-            <div className='h-full grid grid-cols-2'>
+            <div className='h-full sm:h-3/4 grid grid-cols-2 sm:w-1/3'>
                 <div className='col-span-2 grid grid-cols-2 gap-4 p-4'>
                     <div className='col-span-1 p-2 bg-jade-200/70 rounded-xl flex flex-col shadow-[rgba(0,_0,_0,_0.3)_0px_10px_10px]'>
                         <div className='h-3/5 flex flex-row justify-between'>
@@ -581,7 +581,7 @@ function Dashboard(props) {
                     </div>
                 </div>
             </div>
-            <div className='h-full col-span-1 py-8'>
+            <div className='h-full col-span-1 py-8 sm:w-1/3'>
                 <div className='p-2 rounded-xl flex flex-col'>
                     <div className='h-2/5 p-3 flex flex-row justify-between'>
                         <p className='font-semibold text-lg'>Aging To-do's</p>
