@@ -1,6 +1,8 @@
 # Welcome to GetToWork!
 _**A glorified to-do application**_
 
+> This project is currently [LIVE](https://gettowork.vercel.app)
+
 Your destination for interactive task management with analysis capabilities.
 
 <br>
