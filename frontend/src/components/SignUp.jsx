@@ -21,7 +21,7 @@ export default function SignUp() {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
     const [label, setLabel] = useState("");
-    
+
     useEffect(() => {
         let timer;
         if (showInfoAlert) {
@@ -68,19 +68,19 @@ export default function SignUp() {
     const validateName = (value) => {
         const result = nameSchema.safeParse(value);
         console.log(result);
-        setNameError((result.error && value.length !=0 )  ? "You need to enter a valid input here" : null);
+        setNameError((result.error && value.length != 0) ? "You need to enter a valid input here" : null);
     };
 
     const validateEmail = (value) => {
         const result = emailSchema.safeParse(value);
         console.log(result);
-        setEmailError((result.error && value.length !=0 ) ? "Invalid e-mail format" : null);
+        setEmailError((result.error && value.length != 0) ? "Invalid e-mail format" : null);
     };
 
     const validatePassword = (value) => {
         const result = passwordSchema.safeParse(value);
         console.log(result);
-        setPwdError((result.error && value.length !=0 ) ? "Your password needs to be minimum 8 characters" : null);
+        setPwdError((result.error && value.length != 0) ? "Your password needs to be minimum 8 characters" : null);
     };
 
     const signUpBackendCall = async (name, email, pwd) => {
@@ -92,50 +92,50 @@ export default function SignUp() {
         console.log(nameResult);
         console.log(emailResult);
         console.log(pwdResult);
-        
-        if(nameResult.success && emailResult.success && pwdResult.success) {
+
+        if (nameResult.success && emailResult.success && pwdResult.success) {
             try {
-                const response = await axios.post(`${backendUrl}/signup`, {
-                name: name,
-                email: email,
-                password: pwd
-            }, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                validateStatus: function (status) {
-                    return status >= 200 && status < 500; // Treat status codes 200-299 as success
+                const response = await axios.post(`${backendUrl}/user/signup`, {
+                    name: name,
+                    email: email,
+                    password: pwd
+                }, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    validateStatus: function (status) {
+                        return status >= 200 && status < 500; // Treat status codes 200-299 as success
+                    }
+                });
+
+                // console.log(response);
+                if (response.status === 200) {
+                    setShowSuccessAlert(true);
+                    setLabel("Sign Up was successful");
+                    setTimeout(() => {
+                        navigate("/signin");
+                    }, 1000);
+                } else if (response.status === 420) {
+                    setShowErrorAlert(true);
+                    setLabel("User with a similar email already exists");
+                    // Need to re-render the whole component, but not happening for some reason
                 }
-            });
-    
-            // console.log(response);
-            if(response.status === 200) {
-                setShowSuccessAlert(true);
-                setLabel("Sign Up was successful");
-                setTimeout(() => {
-                    navigate("/signin");
-                }, 1000);
-            } else if(response.status === 420) {
-                setShowErrorAlert(true);
-                setLabel("User with a similar email already exists");
-                // Need to re-render the whole component, but not happening for some reason
-            }
 
-            return(response);
+                return (response);
 
-            } catch(err) {
+            } catch (err) {
                 console.log("There was some error in making the backend call to Sign Up");
                 console.log(err);
                 setShowErrorAlert(true);
                 setLabel("Sign up was not successful, please try again after some time");
             }
         } else {
-            if(!nameResult.success) {
+            if (!nameResult.success) {
                 // alert('name');
                 setShowInfoAlert(true);
                 setLabel("Make sure you enter at least one character in the 'Name' field");
                 // alert("Make sure you enter at least one character");
-            } else if(!emailResult.success) {
+            } else if (!emailResult.success) {
                 // alert('email');
                 setShowErrorAlert(true);
                 setLabel("Your email format is invalid");
@@ -146,12 +146,12 @@ export default function SignUp() {
                 setLabel("Your password needs to be of minimum 8 characters");
                 // alert('Your password needs to be of minimum 8 characters');
             }
-        }        
+        }
     }
-    
-    
 
-    return(
+
+
+    return (
         <div className="min-h-screen font-display w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
                 <InfoAlert label={label} />
@@ -177,8 +177,8 @@ export default function SignUp() {
                         <Field label="Email" givenType="text" val={email} setFn={setEmail} validateFn={validateEmail} error={emailError} setError={setEmailError} />
                     </div>
                     <Field label="Password" givenType="password" val={pwd} setFn={setPwd} validateFn={validatePassword} error={pwdError} setError={setPwdError} />
-                    <TnC fn={navigateToTnC} setFn={setTnc}/>
-                    <Button label="Sign Up" name={name} email={email} password={pwd} tnc={tnc} backendCall={signUpBackendCall} showAlert={setShowInfoAlert} settingLabel={setLabel}/>
+                    <TnC fn={navigateToTnC} setFn={setTnc} />
+                    <Button label="Sign Up" name={name} email={email} password={pwd} tnc={tnc} backendCall={signUpBackendCall} showAlert={setShowInfoAlert} settingLabel={setLabel} />
                 </div>
                 <div className="hidden xl:flex items-center">
                     <img className="object-cover" src={signUpPicture} alt="picture" />
@@ -189,7 +189,7 @@ export default function SignUp() {
 }
 
 function Field(props) {
-    return(
+    return (
         <div className="py-2 font-display px-5">
             <p className='text-xs pb-2'>{props.label}</p>
             <input className='px-2 py-2 border-solid border-2 text-xs border-gray-500/50 rounded-lg w-full' type={props.givenType} onChange={(e) => {
@@ -205,10 +205,10 @@ function Field(props) {
 }
 
 function Button(props) {
-    return(
+    return (
         <div className='flex justify-center font-display py-8 px-5'>
             <button className='w-full text-white bg-blue-marguerite-500 text-xs rounded-lg drop-shadow-xl hover:bg-blue-marguerite-700 py-2' onClick={async () => {
-                if(!props.tnc) {
+                if (!props.tnc) {
                     // alert('tnc');
                     props.showAlert(true);
                     props.settingLabel("Please read and accept the Terms and Conditions");
@@ -224,7 +224,7 @@ function TnC(props) {
     return (
         <div className='py-4 px-5 flex flex-row font-display items-center'>
             <input id='tncCheckbox' className='size-3 rounded-lg' type='checkbox' onChange={(e) => {
-               props.setFn(e.target.checked);
+                props.setFn(e.target.checked);
             }} />
             <label htmlFor='tncCheckbox' className='text-xs pl-2 cursor-pointer'>
                 I've read the <a className='text-xs underline text-sky-500 cursor-pointer' onClick={props.fn}>Terms and Conditions</a>

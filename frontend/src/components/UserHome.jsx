@@ -13,7 +13,7 @@ export function UserHome() {
     const [numberOfProjects, setNumberOfProjects] = useState(0);
     const [projectArray, setProjectArray] = useState([]);
     const [modal, setModal] = useState(false); // Project Modal
-    
+
     const [projectTitle, setProjectTitle] = useState(""); // This is for the Modal, NOT for the title at the top
     const [currentProject, setCurrentProject] = useState(null); // This is for the "Current" project selected and being worked upon
 
@@ -21,7 +21,7 @@ export function UserHome() {
     const [sideBarVisible, setSideBarVisible] = useState(false);
     const [toggleState, setToggleState] = useState(true);
 
-    
+
     const toggleComponent = useCallback(() => {
         setToggleState(!toggleState);
     }, [toggleState]);
@@ -35,8 +35,8 @@ export function UserHome() {
     const fetchName = useCallback(async () => {
         const safeToken = localStorage.getItem('token');
         // console.log(safeToken);
-        if(safeToken) {
-            const response = await axios.get(`${backendUrl}/name`, {
+        if (safeToken) {
+            const response = await axios.get(`${backendUrl}/user/name`, {
                 headers: {
                     "Authorization": `${safeToken}`,
                 }
@@ -55,8 +55,8 @@ export function UserHome() {
         // console.log("On fetching projects, value of projectTitle: " + projectTitle);
         try {
             const safeToken = localStorage.getItem('token');
-            if(safeToken) {
-                const response = await axios.get(`${backendUrl}/projects`, {
+            if (safeToken) {
+                const response = await axios.get(`${backendUrl}/project/projects`, {
                     headers: {
                         "Authorization": `${safeToken}`,
                     }
@@ -68,7 +68,7 @@ export function UserHome() {
             } else {
                 navigate("/signin");
             }
-            
+
         } catch (error) {
             console.error("Error fetching projects:", error);
         }
@@ -86,21 +86,21 @@ export function UserHome() {
             let safeToken = localStorage.getItem('token');
             const response = await axios.post(`${backendUrl}/project`, {
                 title: projectTitle,
-            }, 
-            {
-                headers: {
-                    "Authorization": `${safeToken}`
-                }
-            });
-    
+            },
+                {
+                    headers: {
+                        "Authorization": `${safeToken}`
+                    }
+                });
+
             // console.log(response);
             alert("Project Created");
             setProjectTitle("");
             setModal(false);
-    
+
             // Call fetchProjects to update the project list after adding a new project
             fetchProjects();
-        } catch(e) {
+        } catch (e) {
             console.error("Error adding project:", e);
         }
     }, [projectTitle, fetchProjects, setProjectTitle, setModal]);
@@ -108,7 +108,7 @@ export function UserHome() {
     const signOut = () => {
         // Remove the token from localStorage
         localStorage.removeItem('token');
-    
+
         navigate("/signin"); // Redirect using Reach Router navigate function
     }
 
@@ -119,46 +119,46 @@ export function UserHome() {
     const minSwipeDistance = 60
 
     const onTouchStart = (e) => {
-    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
-    setTouchStart(e.targetTouches[0].clientX)
+        setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+        setTouchStart(e.targetTouches[0].clientX)
     }
 
     const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
 
     const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-    const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > minSwipeDistance
-    const isRightSwipe = distance < -minSwipeDistance
-    if (isLeftSwipe) {
-        setSideBarVisible(false);
-    } else if(isRightSwipe) {
-        setSideBarVisible(true);
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > minSwipeDistance
+        const isRightSwipe = distance < -minSwipeDistance
+        if (isLeftSwipe) {
+            setSideBarVisible(false);
+        } else if (isRightSwipe) {
+            setSideBarVisible(true);
+        }
     }
-}
-    
-    
-    return(
+
+
+    return (
         <div className="w-full min-h-screen font-display flex flex-row sm:flex-col sm:overflow-y-hidden">
             <div className="grid grid-cols-6 min-h-screen" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 <div className={sideBarVisible ? "col-span-5 trasition sm:col-span-1 shadow-[rgba(0,_0,_0,_0.4)_0px_10px_90px]" : "hidden sm:block sm:col-span-2 lg:col-span-1 sm:shadow-[rgba(0,_0,_0,_0.4)_0px_10px_90px]"}>
-                    <Sidebar projectArray={projectArray} 
-                            toggle={toggleModal}
-                            currentProject={currentProject}
-                            setCurrentProject={setCurrentProject}
-                            signOut={signOut}
-                            toggleState={toggleState}
-                            setToggleState={setToggleState}
-                            toggleComponent={toggleComponent}
-                            fetchProjects={fetchProjects}
-                            setLoading={setLoading}
-                            loading={loading}
-                            setSideBarVisible={setSideBarVisible}
-                        />
+                    <Sidebar projectArray={projectArray}
+                        toggle={toggleModal}
+                        currentProject={currentProject}
+                        setCurrentProject={setCurrentProject}
+                        signOut={signOut}
+                        toggleState={toggleState}
+                        setToggleState={setToggleState}
+                        toggleComponent={toggleComponent}
+                        fetchProjects={fetchProjects}
+                        setLoading={setLoading}
+                        loading={loading}
+                        setSideBarVisible={setSideBarVisible}
+                    />
                 </div>
                 {/* <div className="col-span-6 sm:col-span-5 relative z-10"> */}
                 <div className={sideBarVisible ? "col-span-1 sm:col-span-5 relative z-10 mx-24 sm:mx-0" : "col-span-6 sm:col-span-4 lg:col-span-5 relative z-10"}>
-                {loading ? (
+                    {loading ? (
                         <div className="w-full flex justify-center items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1500 -800 3000 3000">
                                 <circle fill="#6177FF" stroke="#6177FF" strokeWidth="5" r="15" cx="40" cy="100">
@@ -183,17 +183,27 @@ export function UserHome() {
                                 </div>
                                 <div className="w-full flex flex-col items-center justify-center text-center px-8 sm:px-16 py-32">
                                     <p className="text-gray-700 my-8 font-semibold text-xl">You don't seem to have any projects running, yet!</p>
-                                    <Button label="Create Project" toggle={toggleModal}/>
+                                    <Button label="Create Project" toggle={toggleModal} />
                                 </div>
                             </div>
                         </div>
-                        
+
                     ) : (
                         <div className="min-h-screen h-full relative">
                             <BgImage opacity="0.1" />
                             <ProjectModal toggle={toggleModal} modal={modal} projectTitle={projectTitle} setProjectTitle={setProjectTitle} addProject={addProject} />
                             <div className="relative h-full">
                                 <Waves />
+                                {currentProject ? <ProjectHome
+                                    currentProject={currentProject}
+                                    projectName={currentProject.title}
+                                    projectProgress={`${currentProject.progress}%`}
+                                    updated={updated}
+                                    setUpdated={setUpdated}
+                                    toggleState={toggleState}
+                                    toggleComponent={toggleComponent}
+                                    fetchProjects={fetchProjects}
+                                /> : (
                                 {currentProject ? <ProjectHome 
                                                     currentProject={currentProject}
                                                     projectName={currentProject.title} 
@@ -235,8 +245,8 @@ function Waves() {
 
 function Button(props) {
     return (
-        <button className="cursor-pointer font-display relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50" 
-        onClick={props.toggle}
+        <button className="cursor-pointer font-display relative inline-flex items-center pr-12 pl-10 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
+            onClick={props.toggle}
         >
             <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
             <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
@@ -250,7 +260,7 @@ function Button(props) {
 
 function BgImage(props) {
     return (
-        <div className="absolute inset-0 -z-10" style={{opacity: props.opacity}}>
+        <div className="absolute inset-0 -z-10" style={{ opacity: props.opacity }}>
             <img className="w-full h-full object-cover" src={bgImg} alt="Background" />
         </div>
     )
