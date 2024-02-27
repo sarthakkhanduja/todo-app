@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import signInPicture from "../assets/signin.png"
-import {emailSchema, passwordSchema } from '../validations/signInValidation';
+import { emailSchema, passwordSchema } from '../validations/signInValidation';
 import axios from "axios";
 import { InfoAlert } from './alerts/InfoAlert';
 import { SuccessAlert } from './alerts/SuccessAlert';
@@ -57,22 +57,22 @@ export function SignIn() {
     const validateEmail = (value) => {
         const result = emailSchema.safeParse(value);
         // console.log(result);
-        setEmailError((result.error && value.length !=0 ) ? "Invalid e-mail format" : null);
+        setEmailError((result.error && value.length != 0) ? "Invalid e-mail format" : null);
     };
 
     const validatePassword = (value) => {
         const result = passwordSchema.safeParse(value);
         // console.log(result);
-        setPwdError((result.error && value.length !=0 ) ? "Your password needs to be minimum 8 characters" : null);
+        setPwdError((result.error && value.length != 0) ? "Your password needs to be minimum 8 characters" : null);
     };
 
     const signInBackendCall = async (email, password) => {
         const emailResult = emailSchema.safeParse(email);
         const pwdResult = passwordSchema.safeParse(password);
 
-        if(emailResult.success && pwdResult.success) {
-            try{
-                const response = await axios.post(`${backendUrl}/signin`, {
+        if (emailResult.success && pwdResult.success) {
+            try {
+                const response = await axios.post(`${backendUrl}/user/signin`, {
                     email: email,
                     password: password
                 }, {
@@ -84,10 +84,10 @@ export function SignIn() {
                 })
 
                 console.log(response);
-                if(response.status == 403) {
+                if (response.status == 403) {
                     setShowErrorAlert(true);
                     setLabel("User does not exist");
-                } else if(response.status == 200) {
+                } else if (response.status == 200) {
                     // Store the token in localStorage
                     localStorage.setItem('token', `Bearer ${response.data.token}`);
 
@@ -100,13 +100,13 @@ export function SignIn() {
                         navigate("/userhome");
                     }, 1000);
                 }
-            } catch(e) {
+            } catch (e) {
                 console.log("There was an error in the backend call");
             }
         }
     }
 
-    return(
+    return (
         // <div className="min-h-screen w-full bg-gradient-to-bl from-transparent via-blue-marguerite-300 flex justify-center items-center">
         <div className="min-h-screen font-display w-full flex flex-col justify-center items-center">
             {showInfoAlert && (
@@ -127,7 +127,7 @@ export function SignIn() {
                     <div className="xl:text-4xl md:text-2xl text-xl font-bold text-gray-900 py-8 px-5">
                         <p>Hello, again! 👋</p>
                     </div>
-                    <Field label="Email" givenType="text" setFn={setEmail} validateFn={validateEmail} setError={setEmailError} error={emailError} val={email}/>
+                    <Field label="Email" givenType="text" setFn={setEmail} validateFn={validateEmail} setError={setEmailError} error={emailError} val={email} />
                     <Field label="Password" givenType="password" setFn={setPassword} validateFn={validatePassword} setError={setPwdError} error={pwdError} val={password} />
                     <RememberMe />
                     <Button label="Sign In" backendCall={signInBackendCall} email={email} pwd={password} />
@@ -139,7 +139,7 @@ export function SignIn() {
 
 
 function Field(props) {
-    return(
+    return (
         <div className="py-2 px-5 font-display">
             <p className='text-xs pb-2'>{props.label}</p>
             <input className='px-2 py-2 border-solid font-display border-2 text-xs border-gray-500/50 rounded-lg w-full' type={props.givenType} onChange={(e) => {
@@ -155,7 +155,7 @@ function Field(props) {
 }
 
 function Button(props) {
-    return(
+    return (
         <div className='flex font-display justify-center py-8 px-5'>
             <button className='w-full text-white bg-jade-500 text-xs rounded-lg drop-shadow-xl hover:bg-jade-700 py-2' onClick={async () => {
                 let res = await props.backendCall(props.email, props.pwd);
@@ -166,7 +166,7 @@ function Button(props) {
 }
 
 function RememberMe() {
-    return(
+    return (
         <div className='py-4 font-display px-5 flex flex-row items-center'>
             <input id='rememberMeCheckbox' className='size-3 rounded-lg' type='checkbox' />
             <label htmlFor='rememberMeCheckbox' className='text-xs pl-2 cursor-pointer'>
