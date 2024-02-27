@@ -204,16 +204,6 @@ export function UserHome() {
                                     toggleComponent={toggleComponent}
                                     fetchProjects={fetchProjects}
                                 /> : (
-                                {currentProject ? <ProjectHome 
-                                                    currentProject={currentProject}
-                                                    projectName={currentProject.title} 
-                                                    projectProgress={`${currentProject.progress}%`} 
-                                                    updated={updated}
-                                                    setUpdated={setUpdated}
-                                                    toggleState={toggleState}
-                                                    toggleComponent={toggleComponent}
-                                                    fetchProjects={fetchProjects}
-                                                    /> : (
                                     <div className="max-h-screen h-full">
                                         <div className="w-full px-8 sm:px-16 py-16 sm:py-8 text-5xl sm:text-6xl font-bold mb-16">
                                             Hi<span className="text-blue-marguerite-400">, </span> {name}
