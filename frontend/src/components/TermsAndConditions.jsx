@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'; // Assuming you're using react-router f
 
 export function TermsAndConditions() {
     return (
-        <div className="min-h-screen font-display w-full flex flex-col justify-center items-center">
+        <div className="min-h-screen font-display w-full flex flex-col bg-red-50 justify-center items-center">
             <Link to="/signup" className="flex m-8 p-2 items-center hover:bg-jade-400 rounded-2xl hover:cursor-pointer">
                 <FaArrowLeft className="text-gray-800 cursor-pointer" />
                 <p className="px-4">Go back to the Sign Up page</p>
