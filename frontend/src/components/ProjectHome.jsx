@@ -200,12 +200,12 @@ export function ProjectHome(props) {
 
     return (
         <div className="h-full opacity-90 font-display grid grid-rows-[max-content_max-content_1fr]">
-            <ToDoModal
-                setToDoTitle={setToDoTitle}
-                toDoTitle={toDoTitle}
-                toDoModal={toDoModal}
-                setToDoModal={setToDoModal}
-                setToDoDescription={setToDoDescription}
+            <ToDoModal 
+                setToDoTitle={setToDoTitle} 
+                toDoTitle={toDoTitle} 
+                toDoModal={toDoModal} 
+                setToDoModal={setToDoModal} 
+                setToDoDescription={setToDoDescription} 
                 toDoDescription={toDoDescription}
                 toggle={toggleToDoModal}
                 addTodo={addTodo}
@@ -259,7 +259,12 @@ export function ProjectHome(props) {
                                     </div>
                                 )}
                             </Droppable>}
-
+            {props.toggleState ? <div className="h-full overflow-hidden">            
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="px-4 sm:px-16 mt-2 grid grid-cols-[repeat(3,minmax(320px,1fr))] gap-4 py-3 h-full overflow-x-auto">
+                    <div className="cols-span-1 bg-red-200 rounded-xl overflow-auto red-scrollbar">
+                        <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
+                            Yet to Start
                         </div>
                         <div className="cols-span-1 bg-yellow-200 rounded-xl overflow-auto yellow-scrollbar">
                             <div className="flex justify-center items-center h-8 border-b-2 border-blue-marguerite-300 font-bold">
